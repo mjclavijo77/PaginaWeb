@@ -1,3 +1,2 @@
-Felipe Garzon
 Daniel Bustamante
 
