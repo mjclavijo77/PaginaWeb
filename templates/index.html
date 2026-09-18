@@ -4,14 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GameFinder</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
 
-    <!--  Barra de navegación -->
+    
     <nav class="navbar">
         <div class="nav-logo">
             Logo o nombre
@@ -22,7 +21,6 @@
             <a href="#">Biblioteca</a>
             <a href="#" class="btn-cuenta">Cuenta</a>
             
-            <!-- Icono de las rayas (menu hamburguesa) -->
             <div class="icono-menu">
                 <span></span>
                 <span></span>
@@ -34,12 +32,27 @@
     
 
     <main class="busqueda">
-        <p>Consulta informacion de tu juego en un solo lugar.</p>
+
+        <h1>¿Que videojuego estas buscando?</h1>
+
+        <p>
+            Consulta informacion de tu juego en un solo lugar.
+        </p>
 
         <div class="barra-busqueda">
-            <input type="text" placeholder="" disabled>
-            <button type="button">Buscar</button>
+
+            <input
+                type="text"
+                placeholder=""
+                disabled
+            >
+
+            <button type="button">
+                Buscar
+            </button>
+
         </div>
+
     </main>
 
 </body>

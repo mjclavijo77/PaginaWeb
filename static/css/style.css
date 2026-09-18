@@ -1,58 +1,189 @@
-/* 
-   ESTILOS DE LA BARRA NAVEGACION 
-   */
-
 .navbar {
+
     display: flex;
+
     justify-content: space-between;
+
     align-items: center;
+
     background-color: #0b3668; 
+
     padding: 15px 40px;
+
 }
 
 .nav-logo {
+
     color: #aeb1b4;
+
     font-size: 16px;
+
 }
 
 .nav-menu {
+
     display: flex;
+
     align-items: center;
+
     gap: 25px;
+
 }
 
 .nav-menu a {
+
     color: #d6d7d8;
+
     text-decoration: none;
+
     font-size: 16px;
+
 }
 
 .nav-menu a:hover {
+
     color: white;
+
 }
 
 .btn-cuenta {
+
     background-color: #6c757d;
+
     color: white !important;
+
     padding: 6px 16px;
+
     border-radius: 20px;
+
 }
 
-/* Estilos para el boton de las rayitas */
+
 .icono-menu {
+
     display: flex;
+
     flex-direction: column;
+
     gap: 4px;
+
     background-color: #6c757d;
+
     padding: 8px;
+
     border-radius: 5px;
+
     cursor: pointer;
+
     margin-left: 10px;
+
 }
 
 .icono-menu span {
+
     width: 25px;
+
     height: 3px;
+
     background-color: white;
+
     border-radius: 2px;
+
+}
+
+
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #1b2838;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+}
+
+.busqueda {
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    text-align: center;
+
+    padding-top: 180px;
+}
+
+.busqueda h1 {
+    font-size: 42px;
+}
+
+.busqueda p {
+    color: #d6d7d8;
+    font-size: 23px;
+    margin-bottom: 32px;
+}
+
+
+
+
+.barra-busqueda {
+    display: flex;
+    gap: 12px;
+}
+
+.barra-busqueda input {
+    width: 750px;
+    height: 61px;
+
+    padding: 0 20px;
+
+    border: none;
+    border-radius: 5px;
+
+    background: #356986;
+
+    color: white;
+
+    font-size: 19px;
+
+    outline: none;
+}
+
+.barra-busqueda input::placeholder {
+    color: #aeb1b4;
+}
+
+.barra-busqueda button {
+    width: 120px;
+    height: 61px;
+
+    border: none;
+    border-radius: 5px;
+
+    background: #66c0f4;
+
+    color: black;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.barra-busqueda button:hover {
+    background: #89d8ff;
+}
+
+
+@media (max-width: 900px) {
+
+    .barra-busqueda input {
+        width: 60vw;
+    }
 }
