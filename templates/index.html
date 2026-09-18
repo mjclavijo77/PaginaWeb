@@ -12,10 +12,12 @@
 <body>
 
     <!--  Barra de navegación -->
-    <nav class="navbar">
-        <img src="{{url_for('static, filename='logo.png') }}" atl="Logo" class="logo.img">
-            <span>GameFinder</span>
-        </div>
+   <nav class="navbar">
+    <div class="nav-logo">
+    <img src="{{ url_for('static', filename='logo.png') }}"
+    <span>GameFinder</span>
+
+    </div>
         
         <div class="nav-menu">
             <a href="#">Favoritos</a>
