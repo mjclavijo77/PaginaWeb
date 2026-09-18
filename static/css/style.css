@@ -11,9 +11,21 @@
 }
 
 .nav-logo {
-    color: #aeb1b4;
-    font-size: 16px;
+    display: flex;
+    align-items: center ;
+    gab: 12px 
+    color:white; 
+    font-size: 20px;
+    font-weigth: bold;
 }
+
+.log-img{
+    height: 40px;
+    width auto;
+    display: block;
+
+}
+
 
 .nav-menu {
     display: flex;
