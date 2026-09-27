@@ -107,22 +107,18 @@ body {
 }
 
 .busqueda {
-    background-image: url('/static/css/pictures/Fondo.jpeg');
+    
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/static/css/pictures/Fondo.jpeg');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
     padding: 60px 20px;
-    text-align: center;
-
+    text-align: center; 
     height: 350px;
-
     min-height: 100vh;
-
     display: flex;
     flex-direction: column;
-
     align-items: center;
-
     padding-top: 180px;
 }
 
@@ -141,24 +137,29 @@ body {
 
 .barra-busqueda {
     display: flex;
-    gap: 12px;
+    align-items: center;
+    background-color: #3b3b3b; 
+    border-radius: 30px; 
+    padding: 5px 20px;
+    width: 600px;
+    max-width: 90vw;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.icono-lupa {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    color: #aeb1b4; 
 }
 
 .barra-busqueda input {
-    width: 750px;
-    height: 61px;
-
-    padding: 0 20px;
-
+    flex: 1; 
+    background: transparent;
     border: none;
-    border-radius: 5px;
-
-    background: #356986;
-
     color: white;
-
     font-size: 19px;
-
+    height: 50px;
     outline: none;
 }
 
@@ -166,31 +167,41 @@ body {
     color: #aeb1b4;
 }
 
-.barra-busqueda button {
-    width: 120px;
-    height: 61px;
+.contenedor-resultados {
+    width: 600px;
+    max-width: 90vw;
+    background-color: #2b2b2b;
+    border-radius: 10px;
+    margin-top: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+    display: none; /* Oculto por defecto */
+    text-align: left;
+    overflow: hidden;
+}
 
-    border: none;
-    border-radius: 5px;
-
-    background: #66c0f4;
-
-    color: black;
-
-    font-size: 16px;
-    font-weight: bold;
-
+.item-resultado {
+    padding: 15px 20px;
+    border-bottom: 1px solid #3b3b3b;
+    color: white;
     cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.barra-busqueda button:hover {
-    background: #89d8ff;
+.item-resultado:last-child {
+    border-bottom: none;
 }
 
+.item-resultado:hover {
+    background-color: #3b3b3b;
+}
 
-@media (max-width: 900px) {
-
-    .barra-busqueda input {
-        width: 60vw;
-    }
+.item-genero {
+    font-size: 12px;
+    background: #66c0f4;
+    color: black;
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-weight: bold;
 }

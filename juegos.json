@@ -1,0 +1,30 @@
+[
+    {
+        "id": 1,
+        "nombre": "Halo",
+        "genero": "Shooter",
+        "descripcion": "El Jefe Maestro regresa en una aventura épica de ciencia ficción.",
+        "imagen": "halo.jpg"
+    },
+    {
+        "id": 2,
+        "nombre": "The Witcher 3",
+        "genero": "RPG",
+        "descripcion": "Acompaña a Geralt de Rivia en un mundo abierto lleno de magia y monstruos.",
+        "imagen": "witcher.jpg"
+    },
+    {
+        "id": 3,
+        "nombre": "Assassin's Creed",
+        "genero": "Acción/Aventura",
+        "descripcion": "Explora la historia a través de la legendaria hermandad de asesinos.",
+        "imagen": "assassins.jpg"
+    },
+    {
+        "id": 4,
+        "nombre": "Mortal Kombat",
+        "genero": "Peleas",
+        "descripcion": "Combates sangrientos y brutales con los mejores luchadores del reino.",
+        "imagen": "mk.jpg"
+    }
+]

@@ -39,22 +39,62 @@
             Consulta informacion de tu juego en un solo lugar.
         </p>
 
-        <div class="barra-busqueda">
-
-            <input
-                type="text"
-                placeholder=""
-                disabled
+       <div class="barra-busqueda">
+            <svg class="icono-lupa" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input 
+                type="text" 
+                placeholder="Buscar" 
+                id="input-busqueda"
+                autocomplete="off"
             >
-
-            <button type="button">
-                Buscar
-            </button>
-
         </div>
-
+        
+        <div id="resultados-busqueda" class="contenedor-resultados"></div>
     </main>
+ <script>
+        const inputBusqueda = document.getElementById('input-busqueda');
+        const contenedorResultados = document.getElementById('resultados-busqueda');
 
+        
+        inputBusqueda.addEventListener('input', function() {
+            const query = this.value;
+
+            
+            if (query.length === 0) {
+                contenedorResultados.style.display = 'none';
+                contenedorResultados.innerHTML = '';
+                return;
+            }
+
+            
+            fetch(`/api/buscar?q=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    contenedorResultados.innerHTML = ''; 
+                    
+                    if (data.length > 0) {
+                        contenedorResultados.style.display = 'block';
+                        
+                        data.forEach(juego => {
+                            const div = document.createElement('div');
+                            div.className = 'item-resultado';
+                            div.innerHTML = `
+                                <span>${juego.nombre}</span>
+                                <span class="item-genero">${juego.genero}</span>
+                            `;
+                            contenedorResultados.appendChild(div);
+                        });
+                    } else {
+                        
+                        contenedorResultados.style.display = 'block';
+                        contenedorResultados.innerHTML = '<div class="item-resultado">No se encontraron juegos.</div>';
+                    }
+                });
+        });
+    </script>
 </body>
 
 </html>
