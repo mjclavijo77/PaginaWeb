@@ -108,7 +108,7 @@ body {
 
 .busqueda {
     
-    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/static/css/pictures/Fondo.jpeg');
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/static/img/Fondo.jpeg');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
