@@ -10,9 +10,15 @@ def cargar_juegos():
 
 
 @app.route("/")
+
+
+
 def inicio():
     return render_template("index.html")
 
+@app.route("/registro")
+def registro():
+    return render_template("registro.html") 
 
 @app.route("/api/buscar")
 def buscar_juegos():

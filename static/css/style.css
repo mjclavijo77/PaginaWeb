@@ -205,3 +205,140 @@ body {
     border-radius: 5px;
     font-weight: bold;
 }
+
+
+/* --- ESTILOS DE LA PÁGINA DE REGISTRO --- */
+
+.fondo-registro {
+    background-color: #3b5b82; /* Color de fondo general */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.navbar-registro {
+    background-color: #0b3668;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-nav-placeholder {
+    background-color: #3682a8;
+    width: 120px;
+    height: 35px;
+    border-radius: 5px;
+}
+
+.contenedor-registro {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.tarjeta-registro {
+    background-color: #2b84a6; /* Azul claro de la tarjeta */
+    padding: 40px 50px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.tarjeta-registro h2 {
+    font-size: 32px;
+    margin-bottom: 25px;
+    font-weight: bold;
+}
+
+.grupo-input {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.grupo-input label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.grupo-input input {
+    width: 100%;
+    height: 40px;
+    border: none;
+    border-radius: 15px; /* Bordes redondeados de los inputs */
+    background-color: #0b3668; /* Azul oscuro */
+    color: white;
+    padding: 0 15px;
+    outline: none;
+}
+
+.btn-registrar {
+    width: 100%;
+    height: 40px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: #0b3668;
+    color: transparent; /* Oculta texto temporalmente si es solo un bloque */
+    cursor: pointer;
+}
+
+.enlace-login p {
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.enlace-login a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+/* Estilo para el nuevo botón de volver en el nav */
+.btn-volver {
+    background-color: #3682a8;
+    color: white;
+    text-decoration: none;
+    padding: 8px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.btn-volver:hover {
+    background-color: #4fa4d1;
+}
+
+/* Efecto cuando el usuario hace clic en los inputs para escribir */
+.grupo-input input:focus {
+    outline: 2px solid #66c0f4;
+    background-color: #12437c;
+}
+
+/* Actualización del botón de registrar para mostrar el texto y efecto hover */
+.btn-registrar {
+    width: 100%;
+    height: 40px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: #0b3668;
+    color: white; /* Cambiamos de transparent a white */
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.btn-registrar:hover {
+    background-color: #154c8c;
+}
+
+.btn-registrar:active {
+    transform: scale(0.98); /* Pequeño efecto de hundimiento al hacer clic */
+}
