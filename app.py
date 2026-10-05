@@ -20,6 +20,11 @@ def inicio():
 def registro():
     return render_template("registro.html") 
 
+@app.route("/login")
+def login():
+    return render_template("login.html")
+
+
 @app.route("/api/buscar")
 def buscar_juegos():
     
@@ -37,3 +42,5 @@ def buscar_juegos():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
+
+  

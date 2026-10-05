@@ -4,13 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
 
-    
     <nav class="navbar">
         <div class="nav-logo">
            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo Mando">
@@ -19,7 +17,16 @@
         <div class="nav-menu">
             <a href="#">Favoritos</a>
             <a href="#">Biblioteca</a>
-            <a href="{{ url_for('registro') }}" class="btn-cuenta">Cuenta</a>
+            
+            <!-- INICIO DEL MENÚ DESPLEGABLE -->
+            <div class="dropdown">
+                <a href="#" class="btn-cuenta">Cuenta</a>
+                <div class="dropdown-content">
+                    <a href="{{ url_for('login') }}">Iniciar Sesión</a>
+                    <a href="{{ url_for('registro') }}">Crear Cuenta</a>
+                </div>
+            </div>
+            <!-- FIN DEL MENÚ DESPLEGABLE -->
             
             <div class="icono-menu">
                 <span></span>
@@ -30,7 +37,6 @@
         </div>
     </nav>
     
-
     <main class="busqueda">
 
         <h1>¿Que videojuego estas buscando?</h1>
@@ -58,18 +64,15 @@
         const inputBusqueda = document.getElementById('input-busqueda');
         const contenedorResultados = document.getElementById('resultados-busqueda');
 
-        
         inputBusqueda.addEventListener('input', function() {
             const query = this.value;
 
-            
             if (query.length === 0) {
                 contenedorResultados.style.display = 'none';
                 contenedorResultados.innerHTML = '';
                 return;
             }
 
-            
             fetch(`/api/buscar?q=${query}`)
                 .then(response => response.json())
                 .then(data => {
@@ -88,7 +91,6 @@
                             contenedorResultados.appendChild(div);
                         });
                     } else {
-                        
                         contenedorResultados.style.display = 'block';
                         contenedorResultados.innerHTML = '<div class="item-resultado">No se encontraron juegos.</div>';
                     }
