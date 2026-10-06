@@ -146,6 +146,28 @@ body {
     box-shadow: 0 4px 6px rgba(0,0,0,0.3);
 }
 
+.contenedor-busqueda {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#boton-buscar {
+    height: 60px;
+    padding: 0 25px;
+    border: none;
+    border-radius: 30px;
+    background-color: #66c0f4;
+    color: #000000;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#boton-buscar:hover {
+    background-color: #8ed5ff;
+}
+
 .icono-lupa {
     width: 20px;
     height: 20px;
