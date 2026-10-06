@@ -24,6 +24,9 @@ def registro():
 def login():
     return render_template("login.html")
 
+@app.route("/resultados")
+def resultados():
+    return render_template("resultados.html")
 
 @app.route("/api/buscar")
 def buscar_juegos():
