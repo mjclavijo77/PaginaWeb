@@ -174,7 +174,7 @@ body {
     border-radius: 10px;
     margin-top: 10px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.5);
-    display: none; /* Oculto por defecto */
+    display: none; 
     text-align: left;
     overflow: hidden;
 }
@@ -207,12 +207,12 @@ body {
 }
 
 
-/* --- ESTILOS DE LA PÁGINA DE REGISTRO --- */
+
 
 
 
 .fondo-registro {
-    /* Usa la misma imagen de tu inicio, pero con un filtro muy oscuro para dar el toque Steam */
+    
     background-image: linear-gradient(rgba(23, 26, 33, 0.92), rgba(23, 26, 33, 0.92)), url('/static/img/Fondo.jpeg');
     background-size: cover;
     background-position: center;
@@ -223,7 +223,7 @@ body {
 }
 
 .navbar-registro {
-    background-color: #171a21; /* Negro/Azul muy oscuro de Steam */
+    background-color: #171a21; 
     padding: 15px 40px;
     display: flex;
     justify-content: space-between;
@@ -250,23 +250,23 @@ body {
     flex: 1;
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Sube el formulario hacia arriba */
+    align-items: flex-start;
     padding: 60px 20px;
 }
 
 .tarjeta-registro {
-    background-color: transparent; /* Sin caja sólida de fondo */
+    background-color: transparent; 
     padding: 20px;
     width: 100%;
     max-width: 650px;
-    text-align: left; /* Alineado a la izquierda */
+    text-align: left; 
     color: #c6d4df;
 }
 
 .tarjeta-registro h2 {
     font-size: 32px;
     margin-bottom: 40px;
-    font-weight: 300; /* Letra más delgada */
+    font-weight: 300; 
     color: #ffffff;
     letter-spacing: 1px;
 }
@@ -284,11 +284,11 @@ body {
 
 .grupo-input input {
     width: 100%;
-    max-width: 400px; /* No ocupa toda la pantalla */
+    max-width: 400px; 
     height: 40px;
     border: 1px solid #32353c;
-    border-radius: 3px; /* Bordes más cuadrados */
-    background-color: #32353c; /* Gris oscuro típico de Steam */
+    border-radius: 3px; 
+    background-color: #32353c; 
     color: white;
     padding: 0 15px;
     outline: none;
@@ -297,7 +297,7 @@ body {
 
 .grupo-input input:focus {
     background-color: #3e4149;
-    border: 1px solid #66c0f4; /* Resalte azul */
+    border: 1px solid #66c0f4; 
 }
 
 .btn-registrar {
@@ -307,7 +307,7 @@ body {
     margin-bottom: 30px;
     border: none;
     border-radius: 3px;
-    background: linear-gradient(to right, #47bfff 5%, #1a44c2 95%); /* Degradado azul de Steam */
+    background: linear-gradient(to right, #47bfff 5%, #1a44c2 95%); 
     color: white;
     font-size: 16px;
     cursor: pointer;
@@ -332,7 +332,7 @@ body {
     text-decoration: underline;
 }
 
-/* --- ESTILOS DEL MENÚ DESPLEGABLE --- */
+
 .dropdown {
     position: relative;
     display: inline-block;
@@ -342,7 +342,7 @@ body {
     display: none;
     position: absolute;
     right: 0;
-    background-color: #171a21; /* Fondo oscuro del tema */
+    background-color: #171a21; 
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
     z-index: 1;
@@ -365,4 +365,43 @@ body {
 
 .dropdown:hover .dropdown-content {
     display: block;
+}
+
+
+.footer {
+    background-color: #0b1117; 
+    color: #8f98a0; 
+    padding: 20px 0;
+    text-align: center;
+    border-top: 1px solid #2a475e; 
+    margin-top: auto;
+    width: 100%;
+}
+
+.footer-contenido {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer p {
+    margin: 0;
+    font-size: 12px;
+}
+
+.footer-enlaces {
+    display: flex;
+    gap: 15px;
+}
+
+.footer-enlaces a {
+    color: #c6d4df;
+    text-decoration: none;
+    font-size: 12px;
+    transition: color 0.2s;
+}
+
+.footer-enlaces a:hover {
+    color: #ffffff;
 }
