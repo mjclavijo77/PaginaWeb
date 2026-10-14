@@ -17,7 +17,6 @@ body {
 }
 
 
-/* BARRA SUPERIOR */
 
 .navbar-resultados {
     background-color: #171a21;
@@ -29,7 +28,6 @@ body {
 }
 
 
-/* LOGO */
 
 .nav-logo img {
     height: 50px;
@@ -38,7 +36,7 @@ body {
 }
 
 
-/* BOTON INICIO */
+
 
 .btn-inicio {
     background-color: transparent;
@@ -62,7 +60,6 @@ body {
 }
 
 
-/* CONTENIDO */
 
 .contenido-resultados {
     padding: 60px 40px;

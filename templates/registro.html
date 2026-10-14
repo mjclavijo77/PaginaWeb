@@ -9,13 +9,11 @@
 <body class="fondo-registro">
 
     <nav class="navbar-registro">
-        <!-- Reemplazamos el texto por el logo con enlace al inicio -->
         <div class="nav-logo">
             <a href="/">
                 <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo Mando" style="height: 50px; width: auto;">
             </a>
         </div>
-        <!-- Reemplazamos el cuadro vacío por un botón de volver -->
         <a href="/" class="btn-volver">Volver al inicio</a>
     </nav>
 
@@ -23,7 +21,8 @@
         <div class="tarjeta-registro">
             <h2>CREAR TU CUENTA</h2>
             
-            <form action="#" method="POST">
+            
+            <form action="{{ url_for('registro') }}" method="POST">
                 <div class="grupo-input">
                     <label for="correo">Dirección de correo electrónico</label>
                     <input type="email" id="correo" name="correo" required>
@@ -48,10 +47,22 @@
             </form>
 
             <div class="enlace-login">
-                <p>¿Ya tienes cuenta? <a href="#">Iniciar Sesión</a></p>
+                
+                <p>¿Ya tienes cuenta? <a href="{{ url_for('login') }}">Iniciar Sesión</a></p>
             </div>
         </div>
     </main>
 
+    <footer class="footer">
+        <div class="footer-contenido">
+            <p>&copy; 2026 GameFinder. Todos los derechos reservados.</p>
+            <div class="footer-enlaces">
+                <a href="#">Términos de Servicio</a>
+                <a href="#">Política de Privacidad</a>
+                <a href="#">Acerca de Nosotros</a>
+            </div>
+        </div>
+    </footer>
+    
 </body>
 </html>
