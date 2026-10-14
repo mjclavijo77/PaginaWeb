@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/resultados.css') }}">
+
+    <title>Resultados de búsqueda</title>
+</head>
+
+<body>
+
+    <nav class="navbar-resultados">
+
+        <div class="nav-logo">
+            <a href="/">
+                <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo Mando">
+            </a>
+        </div>
+
+        <a href="/" class="btn-inicio">Volver al inicio</a>
+
+    </nav>
+
+    <main class="contenido-resultados">
+
+        <h1>Resultados de búsqueda</h1>
+
+        <p>Aquí aparecerán los resultados de tu búsqueda.</p>
+
+    </main>
+
+</body>
+
+</html>

@@ -45,5 +45,10 @@ def buscar_juegos():
         
     return jsonify(resultados)
 
+
+@app.route("/resultados")
+def resultados():
+    return render_template("resultados.html")
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
