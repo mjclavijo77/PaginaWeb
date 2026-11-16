@@ -1,3 +1,6 @@
+
+/* CONFIGURACION GENERAL */
+
 * {
     margin: 0;
     padding: 0;
@@ -10,13 +13,20 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     min-height: 100vh;
 
-    background-image: linear-gradient(rgba(23, 26, 33, 0.92), rgba(23, 26, 33, 0.92)), url('/static/img/Fondo.jpeg');
+    background-image:
+        linear-gradient(
+            rgba(23, 26, 33, 0.92),
+            rgba(23, 26, 33, 0.92)
+        ),
+        url('/static/img/Fondo.jpeg');
+
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
 }
 
 
+/* BARRA DE NAVEGACION */
 
 .navbar-resultados {
     background-color: #171a21;
@@ -27,51 +37,366 @@ body {
     align-items: center;
 }
 
-
-
 .nav-logo img {
     height: 50px;
     width: auto;
     display: block;
 }
 
-
-
-
 .btn-inicio {
     background-color: transparent;
     color: #c6d4df;
-
     text-decoration: none;
-
     padding: 8px 20px;
-
     border: 1px solid #c6d4df;
     border-radius: 3px;
-
-    font-weight: normal;
-
     transition: all 0.3s;
 }
 
 .btn-inicio:hover {
     color: #ffffff;
-    border-color: #ffffff;
+    border-color: #66c0f4;
+    background-color: #2a475e;
 }
 
 
+/* CONTENEDOR PRINCIPAL */
 
 .contenido-resultados {
-    padding: 60px 40px;
+    max-width: 1250px;
+    margin: auto;
+    padding: 50px 30px;
+}
+
+
+/* DISTRIBUCION DEL VIDEOJUEGO */
+
+.game {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    gap: 25px;
+    align-items: start;
+}
+
+
+/* COLUMNA IZQUIERDA */
+
+.left {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.main-image {
+    width: 100%;
+    max-height: 480px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #30475c;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+}
+
+.imagen-no-disponible {
+    background-color: #16202d;
+    border: 1px solid #30475c;
+    border-radius: 6px;
+    min-height: 300px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #c6d4df;
+}
+
+
+/* GALERIA DE CAPTURAS */
+
+.screenshots {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.screenshots img {
+    width: 100%;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid #30475c;
+    transition: transform 0.3s;
+}
+
+.screenshots img:hover {
+    transform: scale(1.04);
+    border-color: #66c0f4;
+}
+
+
+/* COLUMNA DERECHA */
+
+.right {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.right h1 {
+    font-size: 34px;
+    color: #ffffff;
+    margin-bottom: 5px;
+}
+
+
+/* TARJETAS DE INFORMACION */
+
+.sinopsis,
+.info,
+.price-box,
+.steamspy {
+    background-color: rgba(23, 32, 45, 0.95);
+    border: 1px solid #30475c;
+    border-radius: 5px;
+    padding: 22px;
+}
+
+.right h2 {
+    color: #66c0f4;
+    font-size: 21px;
+    margin-bottom: 15px;
+}
+
+.sinopsis p {
+    color: #c6d4df;
+    font-size: 15px;
+    line-height: 1.7;
+    text-align: justify;
+}
+
+
+/* INFORMACION GENERAL */
+
+.info p,
+.steamspy p {
+    color: #c6d4df;
+    font-size: 15px;
+    line-height: 1.8;
+    margin-bottom: 5px;
+}
+
+.info strong,
+.steamspy strong {
+    color: #ffffff;
+}
+
+
+/* GENEROS */
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.tag {
+    background-color: #2a475e;
+    color: #c7d5e0;
+    padding: 6px 12px;
+    border-radius: 3px;
+    font-size: 13px;
+}
+
+
+/* PRECIOS DE STEAM */
+
+.price-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.precio-original {
+    color: #8f98a0;
+    text-decoration: line-through;
+    font-size: 15px;
+}
+
+.descuento {
+    background-color: #4c6b22;
+    color: #a4d007;
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+.precio-final {
+    color: #a4d007;
+    font-size: 27px;
+    font-weight: bold;
+}
+
+.price-box p {
+    color: #c6d4df;
+}
+
+
+/* BOTONES DE ENLACES */
+
+.steam-btn {
+    display: inline-block;
+    background-color: #2a475e;
+    color: #ffffff;
+    text-decoration: none;
+
+    padding: 10px 18px;
+    border-radius: 3px;
+
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.steam-btn:hover {
+    background-color: #66c0f4;
+    color: #171a21;
+}
+
+.links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+
+/* ESTADISTICAS STEAMSPY */
+
+.steamspy {
+    margin-top: 0;
+}
+
+
+/* MENSAJE DE ERROR */
+
+.mensaje-error {
+    background-color: rgba(23, 32, 45, 0.95);
+    border: 1px solid #30475c;
+    border-radius: 5px;
+
+    max-width: 650px;
+    margin: 70px auto;
+    padding: 40px;
     text-align: center;
 }
 
-.contenido-resultados h1 {
-    font-size: 36px;
-    margin-bottom: 20px;
+.mensaje-error h1 {
+    color: #66c0f4;
+    margin-bottom: 15px;
 }
 
-.contenido-resultados p {
+.mensaje-error p {
     color: #c6d4df;
-    font-size: 18px;
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+
+/* FOOTER */
+
+.footer {
+    background-color: #171a21;
+    padding: 25px 40px;
+    margin-top: 40px;
+}
+
+.footer-contenido {
+    max-width: 1250px;
+    margin: auto;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.footer p {
+    color: #8f98a0;
+    font-size: 13px;
+}
+
+.footer-enlaces {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-enlaces a {
+    color: #c6d4df;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.footer-enlaces a:hover {
+    color: #66c0f4;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 850px) {
+
+    .game {
+        grid-template-columns: 1fr;
+    }
+
+    .main-image {
+        max-height: 400px;
+    }
+
+    .right h1 {
+        font-size: 28px;
+    }
+
+    .contenido-resultados {
+        padding: 30px 20px;
+    }
+}
+
+@media (max-width: 550px) {
+
+    .navbar-resultados {
+        padding: 15px 20px;
+    }
+
+    .nav-logo img {
+        height: 40px;
+    }
+
+    .btn-inicio {
+        padding: 7px 12px;
+        font-size: 13px;
+    }
+
+    .screenshots img {
+        height: 85px;
+    }
+
+    .sinopsis,
+    .info,
+    .price-box,
+    .steamspy {
+        padding: 16px;
+    }
+
+    .footer-contenido {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-enlaces {
+        justify-content: center;
+    }
 }
