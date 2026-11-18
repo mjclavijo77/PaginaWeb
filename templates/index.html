@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -5,19 +6,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>GameFinder</title>
 </head>
 
 <body>
 
     <nav class="navbar">
         <div class="nav-logo">
-           <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo Mando">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo Mando">
         </div>
-        
+
         <div class="nav-menu">
             <a href="#">Favoritos</a>
             <a href="#">Biblioteca</a>
-            
+
             <!-- INICIO DEL MENÚ DESPLEGABLE -->
             <div class="dropdown">
                 <a href="#" class="btn-cuenta">Cuenta</a>
@@ -27,7 +29,7 @@
                 </div>
             </div>
             <!-- FIN DEL MENÚ DESPLEGABLE -->
-            
+
             <div class="icono-menu">
                 <span></span>
                 <span></span>
@@ -36,7 +38,7 @@
             </div>
         </div>
     </nav>
-    
+
     <main class="busqueda">
 
         <h1>¿Que videojuego estas buscando?</h1>
@@ -45,34 +47,65 @@
             Consulta informacion de tu juego en un solo lugar.
         </p>
 
-       <div class="contenedor-busqueda">
-    <div class="barra-busqueda">
-        <svg class="icono-lupa" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-        
-        <input 
-            type="text" 
-            placeholder="Buscar" 
-            id="input-busqueda"
-            autocomplete="off"
-        >
-    </div>
+        <div class="contenedor-busqueda">
 
-    <button type="button" id="boton-buscar" onclick="window.location.href='/resultados'">
-    Buscar
-</button>
-    </div>
-        
+            <div class="barra-busqueda">
+                <svg class="icono-lupa"
+                     xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+
+                <input
+                    type="text"
+                    placeholder="Buscar"
+                    id="input-busqueda"
+                    autocomplete="off"
+                >
+            </div>
+
+            <button type="button" id="boton-buscar">
+                Buscar
+            </button>
+
+        </div>
+
         <div id="resultados-busqueda" class="contenedor-resultados"></div>
+
     </main>
- <script>
+
+    <script>
         const inputBusqueda = document.getElementById('input-busqueda');
         const contenedorResultados = document.getElementById('resultados-busqueda');
+        const botonBuscar = document.getElementById('boton-buscar');
 
+        // Buscar videojuego y abrir la página de resultados
+        function buscarVideojuego() {
+            const query = inputBusqueda.value.trim();
+
+            if (query.length > 0) {
+                window.location.href = `/resultados?q=${encodeURIComponent(query)}`;
+            }
+        }
+
+        botonBuscar.addEventListener('click', buscarVideojuego);
+
+        inputBusqueda.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                buscarVideojuego();
+            }
+        });
+
+        // Mostrar sugerencias mientras se escribe
         inputBusqueda.addEventListener('input', function() {
-            const query = this.value;
+            const query = this.value.trim();
 
             if (query.length === 0) {
                 contenedorResultados.style.display = 'none';
@@ -80,34 +113,47 @@
                 return;
             }
 
-            fetch(`/api/buscar?q=${query}`)
+            fetch(`/api/buscar?q=${encodeURIComponent(query)}`)
                 .then(response => response.json())
                 .then(data => {
-                    contenedorResultados.innerHTML = ''; 
-                    
+                    contenedorResultados.innerHTML = '';
+
                     if (data.length > 0) {
                         contenedorResultados.style.display = 'block';
-                        
+
                         data.forEach(juego => {
                             const div = document.createElement('div');
                             div.className = 'item-resultado';
+
                             div.innerHTML = `
                                 <span>${juego.nombre}</span>
                                 <span class="item-genero">${juego.genero}</span>
                             `;
+
+                            div.addEventListener('click', function() {
+                                inputBusqueda.value = juego.nombre;
+                                buscarVideojuego();
+                            });
+
                             contenedorResultados.appendChild(div);
                         });
+
                     } else {
                         contenedorResultados.style.display = 'block';
-                        contenedorResultados.innerHTML = '<div class="item-resultado">No se encontraron juegos.</div>';
+                        contenedorResultados.innerHTML =
+                            '<div class="item-resultado">No se encontraron juegos.</div>';
                     }
+                })
+                .catch(error => {
+                    console.error('Error al buscar videojuegos:', error);
                 });
         });
     </script>
 
-<footer class="footer">
+    <footer class="footer">
         <div class="footer-contenido">
             <p>&copy; 2026 GameFinder. Todos los derechos reservados.</p>
+
             <div class="footer-enlaces">
                 <a href="#">Términos de Servicio</a>
                 <a href="#">Política de Privacidad</a>
