@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 import gestor_datos
-from backend.game_api import obtener_datos_completos, buscar_sugerencias_rawg
+from backend.game_facade import GameCatalogFacade
 
 app = Flask(__name__)
+catalogo = GameCatalogFacade()
 
 
 @app.route("/")
@@ -16,9 +17,8 @@ def registro():
         nuevo_usuario = {
             "correo": request.form.get("correo"),
             "usuario": request.form.get("usuario"),
-            "password": request.form.get("password")
+            "password": request.form.get("password"),
         }
-
         gestor_datos.guardar_usuario(nuevo_usuario)
         return redirect(url_for("login"))
 
@@ -38,16 +38,16 @@ def resultados():
         return render_template(
             "resultados.html",
             juego=None,
-            error="Debes escribir el nombre de un videojuego."
+            error="Debes escribir el nombre de un videojuego.",
         )
 
-    datos = obtener_datos_completos(nombre_juego)
+    datos = catalogo.obtener_datos_completos(nombre_juego)
 
     if not datos:
         return render_template(
             "resultados.html",
             juego=None,
-            error="No se encontro el videojuego. Intenta con otro nombre."
+            error="No se encontro el videojuego. Intenta con otro nombre.",
         )
 
     return render_template("resultados.html", juego=datos, error=None)
@@ -61,8 +61,7 @@ def buscar_juegos():
     if not query:
         return jsonify([])
 
-    resultados = buscar_sugerencias_rawg(query, limite=limite)
-    return jsonify(resultados)
+    return jsonify(catalogo.buscar_sugerencias(query=query, limite=limite))
 
 
 @app.route("/api/videojuegos")
@@ -71,11 +70,11 @@ def api_videojuegos():
     pagina = request.args.get("pagina", 1, type=int)
     tamano = request.args.get("tamano", 40, type=int)
 
-    resultados = buscar_sugerencias_rawg(query, limite=tamano, pagina=pagina)
+    juegos = catalogo.buscar_sugerencias(query=query, limite=tamano, pagina=pagina)
     return jsonify({
         "pagina": pagina,
-        "cantidad": len(resultados),
-        "videojuegos": resultados
+        "cantidad": len(juegos),
+        "videojuegos": juegos,
     })
 
 
