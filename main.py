@@ -1,21 +1,18 @@
-<<<<<<< HEAD
 
 import json
 import logging
+import os
 
 from flask import (
     Flask, render_template, request, jsonify,
     redirect, url_for, session, flash
 )
 
-=======
-from flask import Flask, render_template, request, jsonify, redirect, url_for
->>>>>>> origin/rama-daniel
 import gestor_datos
 from backend.game_api import obtener_datos_completos, buscar_sugerencias_rawg
 
 app = Flask(__name__)
-app.secret_key = "gamefinder-clave-local-cambiar-despues"
+app.secret_key = os.getenv("FLASK_SECRET_KEY", "gamefinder-clave-local")
 app.config["JSON_AS_ASCII"] = False
 
 logging.basicConfig(level=logging.INFO)
@@ -38,11 +35,9 @@ def favoritos():
         flash("Debes iniciar sesión para ver tus favoritos.")
         return redirect(url_for("login"))
 
-    lista_favoritos = gestor_datos.obtener_favoritos(correo)
-
     return render_template(
         "favoritos.html",
-        favoritos=lista_favoritos,
+        favoritos=gestor_datos.obtener_favoritos(correo),
         usuario=session.get("usuario", correo)
     )
 
@@ -56,9 +51,7 @@ def agregar_favorito():
         return redirect(url_for("login"))
 
     try:
-        datos_juego = json.loads(
-            request.form.get("juego_json", "{}")
-        )
+        datos_juego = json.loads(request.form.get("juego_json", "{}"))
     except (json.JSONDecodeError, TypeError):
         flash("No se pudieron leer los datos del videojuego.")
         return redirect(url_for("inicio"))
@@ -67,9 +60,7 @@ def agregar_favorito():
         flash("Los datos del videojuego están incompletos.")
         return redirect(url_for("inicio"))
 
-    guardado = gestor_datos.guardar_favorito(correo, datos_juego)
-
-    if guardado:
+    if gestor_datos.guardar_favorito(correo, datos_juego):
         flash("¡Videojuego agregado a tus favoritos!")
     else:
         flash("Este videojuego ya está en tus favoritos.")
@@ -88,9 +79,7 @@ def quitar_favorito():
     nombre = request.form.get("nombre", "").strip()
 
     if nombre:
-        eliminado = gestor_datos.eliminar_favorito(correo, nombre)
-
-        if eliminado:
+        if gestor_datos.eliminar_favorito(correo, nombre):
             flash("Videojuego eliminado de tus favoritos.")
         else:
             flash("No se encontró ese videojuego en tus favoritos.")
@@ -101,7 +90,6 @@ def quitar_favorito():
 @app.route("/registro", methods=["GET", "POST"])
 def registro():
     if request.method == "POST":
-
         nuevo_usuario = {
             "correo": request.form.get("correo", "").strip().lower(),
             "usuario": request.form.get("usuario", "").strip(),
@@ -130,10 +118,8 @@ def registro():
 
         try:
             guardado = gestor_datos.guardar_usuario(nuevo_usuario)
-
         except OSError:
             app.logger.exception("No se pudo guardar el usuario.")
-
             return render_template(
                 "registro.html",
                 error="No se pudo guardar el registro. Revisa los permisos de archivos."
@@ -146,7 +132,6 @@ def registro():
             )
 
         flash("Cuenta creada correctamente. Ya puedes iniciar sesión.")
-
         return redirect(url_for("login"))
 
     return render_template("registro.html")
@@ -155,7 +140,6 @@ def registro():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-
         correo = request.form.get("correo", "").strip().lower()
         password = request.form.get("password", "")
 
@@ -165,7 +149,6 @@ def login():
             session.clear()
             session["correo"] = usuario["correo"]
             session["usuario"] = usuario.get("usuario", correo)
-
             return redirect(url_for("inicio"))
 
         return render_template(
@@ -180,7 +163,6 @@ def login():
 def logout():
     session.clear()
     flash("Has cerrado sesión.")
-
     return redirect(url_for("inicio"))
 
 
@@ -200,7 +182,6 @@ def resultados():
 
     try:
         datos = obtener_datos_completos(nombre_juego)
-
     except Exception:
         app.logger.exception(
             "Error al consultar las APIs para %s",
@@ -212,7 +193,7 @@ def resultados():
             juego=None,
             error=(
                 "Ocurrió un problema al consultar los servicios de videojuegos. "
-                "Verifica tu conexión, las dependencias y la configuración de RAWG_API_KEY."
+                "Verifica tu conexión, las dependencias y RAWG_API_KEY."
             ),
             usuario=session.get("usuario"),
             es_favorito=False
@@ -223,8 +204,8 @@ def resultados():
             "resultados.html",
             juego=None,
             error=(
-                "No se encontró el videojuego. Comprueba el nombre o intenta "
-                "con otro título. Si ocurre con todos los juegos, revisa RAWG_API_KEY."
+                "No se encontró el videojuego. Comprueba el nombre "
+                "o intenta con otro título."
             ),
             usuario=session.get("usuario"),
             es_favorito=False
@@ -246,28 +227,12 @@ def resultados():
 
 @app.route("/api/buscar")
 def buscar_juegos():
-<<<<<<< HEAD
-    query = request.args.get("q", "").strip().casefold()
-    juegos = gestor_datos.cargar_juegos()
-
-    if not isinstance(juegos, list):
-        juegos = []
-
-    if query:
-        resultados = [
-            juego for juego in juegos
-            if isinstance(juego, dict)
-            and query in str(juego.get("nombre", "")).casefold()
-        ]
-    else:
-        resultados = []
-=======
     query = request.args.get("q", "").strip()
     limite = request.args.get("limite", 6, type=int)
+    limite = min(max(limite, 1), 12)
 
-    if not query:
+    if len(query) < 2:
         return jsonify([])
->>>>>>> origin/rama-daniel
 
     resultados = buscar_sugerencias_rawg(query, limite=limite)
     return jsonify(resultados)
@@ -276,10 +241,15 @@ def buscar_juegos():
 @app.route("/api/videojuegos")
 def api_videojuegos():
     query = request.args.get("q", "").strip()
-    pagina = request.args.get("pagina", 1, type=int)
-    tamano = request.args.get("tamano", 40, type=int)
+    pagina = max(request.args.get("pagina", 1, type=int), 1)
+    tamano = min(max(request.args.get("tamano", 40, type=int), 1), 40)
 
-    resultados = buscar_sugerencias_rawg(query, limite=tamano, pagina=pagina)
+    resultados = buscar_sugerencias_rawg(
+        query,
+        limite=tamano,
+        pagina=pagina
+    )
+
     return jsonify({
         "pagina": pagina,
         "cantidad": len(resultados),
@@ -288,12 +258,8 @@ def api_videojuegos():
 
 
 if __name__ == "__main__":
-<<<<<<< HEAD
     app.run(
         host="127.0.0.1",
         port=5000,
         debug=True
     )
-=======
-    app.run(host="0.0.0.0", port=5000, debug=True)
->>>>>>> origin/rama-daniel

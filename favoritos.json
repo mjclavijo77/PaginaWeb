@@ -1,64 +1,62 @@
 [
     {
         "correo": "jfg@gmail.com",
-        "nombre": "Grand Theft Auto V",
+        "nombre": "Elden Ring",
         "juego": {
-            "appid": 3240220,
+            "appid": 1245620,
             "desarrolladores": [
-                "Rockstar North",
-                "Rockstar Games"
+                "FromSoftware"
             ],
             "esrb": "Mature",
-            "gameplay": "https://steamcdn-a.akamaihd.net/steam/apps/256693661/movie_max.mp4",
+            "gameplay": null,
             "generos": [
-                "Action"
+                "Action",
+                "RPG"
             ],
-            "imagen": "https://media.rawg.io/media/games/20a/20aa03a10cda45239fe22d035c0ebe64.jpg",
-            "lanzamiento": "2013-09-17",
-            "metacritic": 92,
-            "nombre": "Grand Theft Auto V",
+            "imagen": "https://media.rawg.io/media/games/b29/b294fdd866dcdb643e7bab370a552855.jpg",
+            "lanzamiento": "2022-02-25",
+            "metacritic": 95,
+            "nombre": "Elden Ring",
             "plataformas": [
                 "PC",
                 "PlayStation 5",
                 "Xbox One",
                 "PlayStation 4",
-                "Xbox Series S/X",
-                "Xbox 360",
-                "PlayStation 3"
+                "Xbox Series S/X"
             ],
-            "rating": 4.46,
+            "rating": 4.38,
             "screenshots": [
-                "https://media.rawg.io/media/screenshots/f95/f9518b1d99210c0cae21fc09e95b4e31.jpg",
-                "https://media.rawg.io/media/screenshots/a5c/a5c95ea539c87d5f538763e16e18fb99.jpg",
-                "https://media.rawg.io/media/screenshots/a7e/a7e990bc574f4d34e03b5926361d1ee7.jpg",
-                "https://media.rawg.io/media/screenshots/eb0/eb0a2c0de9194a635fc0cd04f5a29ae7.jpg",
-                "https://media.rawg.io/media/screenshots/ec7/ec7f05fb82290fea9647b7879fe9a6bf.jpg",
-                "https://media.rawg.io/media/screenshots/260/260559fbefce0b36c66ae5e280c7d774.jpg"
+                "https://media.rawg.io/media/screenshots/36f/36f941f72e2b2a41629f5fb3bd448688.jpg",
+                "https://media.rawg.io/media/screenshots/290/29096848622521df7555850000236cb6.jpg",
+                "https://media.rawg.io/media/screenshots/807/807685454ea8fb87363eedd49677f49b.jpg",
+                "https://media.rawg.io/media/screenshots/2ee/2eea4d4cce2836f689d9d39d2a4a94d5.jpg",
+                "https://media.rawg.io/media/screenshots/de9/de9b28bdd0bdb9937c7f82e55f845bb6.jpg",
+                "https://media.rawg.io/media/screenshots/3a2/3a2e5f31e2061bc566bcfd30fda56a17.jpg"
             ],
-            "sinopsis": "Rockstar Games se hizo más grande desde su entrega anterior de la serie. Obtienes la construcción del mundo complicada y realista de Liberty City de GTA4 en el escenario de Los Santos, un viejo favorito de los fans, GTA San Andreas. 561 vehículos diferentes (incluidos todos los transportes que puede operar) y la cantidad aumenta con cada actualización.\n\nNarración simultánea desde tres perspectivas únicas:\n\nSigue a Michael, ex-criminal que vive su vida de ocio lejos del pasado, Franklin, un niño que busca un futuro mejor, y Trevor, el pasado exacto del que Michael está tratando de huir.\n\nGTA Online proporcionará muchos desafíos adicionales incluso para los jugadores experimentados, recién llegados del modo historia. Ahora tendrás otros jugadores cerca que pueden ayudarte con la misma probabilidad que arruinar tu misión. Los jugadores pueden experimentar todas las mecánicas de GTA actualizadas a través del personaje personalizable único, y el contenido de la comunidad combinado con el sistema de nivelación tiende a mantener a todos ocupados y comprometidos.",
-            "sitio_web": "http://www.rockstargames.com/V/",
+            "sinopsis": "EL NUEVO JUEGO DE ROL Y ACCIÓN DE AMBIENTACIÓN FANTÁSTICA. Álzate, Sinluz, y que la gracia te guíe para abrazar el poder del Círculo de Elden y encumbrarte como señor del Círculo en las Tierras Intermedias.",
+            "sitio_web": "https://en.bandainamcoent.eu/elden-ring/elden-ring",
             "steam": {
-                "descripcion": "Disfruta de los superventas del entretenimiento Grand Theft Auto V y Grand Theft Auto Online, ahora mejorados para una nueva generación, con impresionantes gráficos, carga más rápida, audio 3D y mucho más, además de contenido exclusivo para los jugadores de GTA Online.",
-                "imagen": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3240220/header.jpg?t=1781187782",
-                "nombre": "Grand Theft Auto V Enhanced",
+                "descripcion": "EL NUEVO JUEGO DE ROL Y ACCIÓN DE AMBIENTACIÓN FANTÁSTICA. Álzate, Sinluz, y que la gracia te guíe para abrazar el poder del Círculo de Elden y encumbrarte como señor del Círculo en las Tierras Intermedias.",
+                "imagen": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1245620/header.jpg?t=1790290043",
+                "nombre": "ELDEN RING",
                 "precio": {
                     "currency": "COP",
                     "discount_percent": 0,
-                    "final": 11990000,
-                    "final_formatted": "COL$ 119.900",
-                    "initial": 11990000,
+                    "final": 20190000,
+                    "final_formatted": "COL$ 201.900",
+                    "initial": 20190000,
                     "initial_formatted": ""
                 },
-                "url": "https://store.steampowered.com/app/3240220/"
+                "url": "https://store.steampowered.com/app/1245620/"
             },
-            "steam_url": "https://store.steampowered.com/app/3240220/",
+            "steam_url": "https://store.steampowered.com/app/1245620/",
             "steamspy": {
-                "negativas": 36073,
-                "positivas": 190682,
-                "propietarios": "5,000,000 .. 10,000,000",
-                "reseñas": 226755,
-                "tiempo_promedio": 1893,
-                "tiempo_ultimas_dos_semanas": 375
+                "negativas": 57047,
+                "positivas": 779277,
+                "propietarios": "20,000,000 .. 50,000,000",
+                "reseñas": 836324,
+                "tiempo_promedio": 8757,
+                "tiempo_ultimas_dos_semanas": 464
             }
         }
     }

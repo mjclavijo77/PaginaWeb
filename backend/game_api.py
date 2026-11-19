@@ -86,15 +86,7 @@ def traducir_a_espanol(texto):
     if not texto:
         return ""
 
-<<<<<<< HEAD
     partes = re.split(r"(?<=[.!?])\s+", texto.strip())
-=======
-    try:
-        traducido = GoogleTranslator(
-            source="auto",
-            target="es"
-        ).translate(texto[:4500])
->>>>>>> origin/rama-daniel
 
     bloques = []
     bloque_actual = ""
@@ -200,7 +192,6 @@ def obtener_sinopsis(detalles, descripcion_steam=None):
 
     if descripcion:
 
-<<<<<<< HEAD
         coincidencia = re.search(
             r"(?:^|\n)\s*(?:Español|Spanish)\s*:?\s*\n",
             descripcion,
@@ -240,23 +231,6 @@ def obtener_sinopsis(detalles, descripcion_steam=None):
         "La descripcion no esta disponible en español en este momento."
     )
 
-=======
-    coincidencia = re.search(
-        r"(?:^|\n)\s*(?:Español|Spanish)\s*:?\s*\n",
-        descripcion,
-        flags=re.IGNORECASE
-    )
-
-    if coincidencia:
-        descripcion_espanol = descripcion[coincidencia.end():].strip()
-
-        if descripcion_espanol:
-            print("Se encontro una descripcion en español en RAWG.")
-            return descripcion_espanol
-
-    return traducir_a_espanol(descripcion)
-
->>>>>>> origin/rama-daniel
 
 # =====================================================
 # RAWG: SUGERENCIAS RAPIDAS Y CATALOGO

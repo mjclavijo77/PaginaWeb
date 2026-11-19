@@ -16,7 +16,6 @@ def leer_json(ruta, valor_por_defecto):
     try:
         with ruta.open("r", encoding="utf-8") as archivo:
             return json.load(archivo)
-
     except (json.JSONDecodeError, OSError):
         return valor_por_defecto
 
@@ -37,29 +36,26 @@ def guardar_json(ruta, datos):
     temporal.replace(ruta)
 
 
-<<<<<<< HEAD
 def cargar_juegos():
     datos = leer_json(ARCHIVO_JUEGOS, [])
-
     return datos if isinstance(datos, list) else []
 
 
 def cargar_usuarios():
     datos = leer_json(ARCHIVO_USUARIOS, [])
-
     return datos if isinstance(datos, list) else []
 
 
 def guardar_usuario(datos_usuario):
     usuarios = cargar_usuarios()
 
-    correo = datos_usuario.get("correo", "").strip().lower()
+    correo = str(datos_usuario.get("correo", "")).strip().lower()
 
     if not correo:
         return False
 
     if any(
-        usuario.get("correo", "").strip().lower() == correo
+        str(usuario.get("correo", "")).strip().lower() == correo
         for usuario in usuarios
     ):
         return False
@@ -68,7 +64,6 @@ def guardar_usuario(datos_usuario):
     nuevo["correo"] = correo
 
     usuarios.append(nuevo)
-
     guardar_json(ARCHIVO_USUARIOS, usuarios)
 
     return True
@@ -78,9 +73,8 @@ def validar_usuario(correo, password):
     correo = correo.strip().lower()
 
     for usuario in cargar_usuarios():
-
         if (
-            usuario.get("correo", "").strip().lower() == correo
+            str(usuario.get("correo", "")).strip().lower() == correo
             and usuario.get("password") == password
         ):
             return usuario
@@ -90,7 +84,6 @@ def validar_usuario(correo, password):
 
 def cargar_favoritos():
     datos = leer_json(ARCHIVO_FAVORITOS, [])
-
     return datos if isinstance(datos, list) else []
 
 
@@ -100,7 +93,7 @@ def obtener_favoritos(correo):
     return [
         favorito
         for favorito in cargar_favoritos()
-        if favorito.get("correo", "").strip().lower() == correo
+        if str(favorito.get("correo", "")).strip().lower() == correo
     ]
 
 
@@ -117,10 +110,10 @@ def guardar_favorito(correo, juego):
     favoritos = cargar_favoritos()
 
     for favorito in favoritos:
-
         if (
-            favorito.get("correo", "").strip().lower() == correo
-            and favorito.get("nombre", "").strip().casefold() == nombre.casefold()
+            str(favorito.get("correo", "")).strip().lower() == correo
+            and str(favorito.get("nombre", "")).strip().casefold()
+            == nombre.casefold()
         ):
             return False
 
@@ -145,8 +138,8 @@ def eliminar_favorito(correo, nombre):
         favorito
         for favorito in favoritos
         if not (
-            favorito.get("correo", "").strip().lower() == correo
-            and favorito.get("nombre", "").strip().casefold() == nombre
+            str(favorito.get("correo", "")).strip().lower() == correo
+            and str(favorito.get("nombre", "")).strip().casefold() == nombre
         )
     ]
 
@@ -162,25 +155,6 @@ def comprobar_favorito(correo, nombre):
     nombre = nombre.strip().casefold()
 
     return any(
-        favorito.get("nombre", "").strip().casefold() == nombre
+        str(favorito.get("nombre", "")).strip().casefold() == nombre
         for favorito in obtener_favoritos(correo)
     )
-=======
-
-def guardar_usuario(datos_usuario):
-    """Guarda un nuevo usuario en el archivo plano."""
-    archivo_usuarios = "usuarios.json"
-    usuarios = []
-
-    if os.path.exists(archivo_usuarios):
-        with open(archivo_usuarios, "r", encoding="utf-8") as archivo:
-            try:
-                usuarios = json.load(archivo)
-            except json.JSONDecodeError:
-                usuarios = []
-
-    usuarios.append(datos_usuario)
-
-    with open(archivo_usuarios, "w", encoding="utf-8") as archivo:
-        json.dump(usuarios, archivo, indent=4, ensure_ascii=False)
->>>>>>> origin/rama-daniel
