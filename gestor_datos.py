@@ -37,6 +37,7 @@ def guardar_json(ruta, datos):
     temporal.replace(ruta)
 
 
+<<<<<<< HEAD
 def cargar_juegos():
     datos = leer_json(ARCHIVO_JUEGOS, [])
 
@@ -164,3 +165,22 @@ def comprobar_favorito(correo, nombre):
         favorito.get("nombre", "").strip().casefold() == nombre
         for favorito in obtener_favoritos(correo)
     )
+=======
+
+def guardar_usuario(datos_usuario):
+    """Guarda un nuevo usuario en el archivo plano."""
+    archivo_usuarios = "usuarios.json"
+    usuarios = []
+
+    if os.path.exists(archivo_usuarios):
+        with open(archivo_usuarios, "r", encoding="utf-8") as archivo:
+            try:
+                usuarios = json.load(archivo)
+            except json.JSONDecodeError:
+                usuarios = []
+
+    usuarios.append(datos_usuario)
+
+    with open(archivo_usuarios, "w", encoding="utf-8") as archivo:
+        json.dump(usuarios, archivo, indent=4, ensure_ascii=False)
+>>>>>>> origin/rama-daniel

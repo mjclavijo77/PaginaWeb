@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 import json
 import logging
@@ -7,8 +8,11 @@ from flask import (
     redirect, url_for, session, flash
 )
 
+=======
+from flask import Flask, render_template, request, jsonify, redirect, url_for
+>>>>>>> origin/rama-daniel
 import gestor_datos
-from backend.game_api import obtener_datos_completos
+from backend.game_api import obtener_datos_completos, buscar_sugerencias_rawg
 
 app = Flask(__name__)
 app.secret_key = "gamefinder-clave-local-cambiar-despues"
@@ -242,6 +246,7 @@ def resultados():
 
 @app.route("/api/buscar")
 def buscar_juegos():
+<<<<<<< HEAD
     query = request.args.get("q", "").strip().casefold()
     juegos = gestor_datos.cargar_juegos()
 
@@ -256,13 +261,39 @@ def buscar_juegos():
         ]
     else:
         resultados = []
+=======
+    query = request.args.get("q", "").strip()
+    limite = request.args.get("limite", 6, type=int)
 
+    if not query:
+        return jsonify([])
+>>>>>>> origin/rama-daniel
+
+    resultados = buscar_sugerencias_rawg(query, limite=limite)
     return jsonify(resultados)
 
 
+@app.route("/api/videojuegos")
+def api_videojuegos():
+    query = request.args.get("q", "").strip()
+    pagina = request.args.get("pagina", 1, type=int)
+    tamano = request.args.get("tamano", 40, type=int)
+
+    resultados = buscar_sugerencias_rawg(query, limite=tamano, pagina=pagina)
+    return jsonify({
+        "pagina": pagina,
+        "cantidad": len(resultados),
+        "videojuegos": resultados
+    })
+
+
 if __name__ == "__main__":
+<<<<<<< HEAD
     app.run(
         host="127.0.0.1",
         port=5000,
         debug=True
     )
+=======
+    app.run(host="0.0.0.0", port=5000, debug=True)
+>>>>>>> origin/rama-daniel

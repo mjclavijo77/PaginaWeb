@@ -3,31 +3,30 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box; 
+    box-sizing: border-box;
 }
 
 body {
-    background: #1b2838; 
+    background: #1b2838;
     color: white;
     font-family: Arial, Helvetica, sans-serif;
     min-height: 100vh;
 }
 
 
-/*  1. BARRA DE NAVEGACIÓN PRINCIPAL (HEADER)*/
-
+/* 1. BARRA DE NAVEGACIÓN PRINCIPAL (HEADER) */
 
 .navbar {
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    background-color: #0d1117; 
-    border-bottom: 1px solid #1f2937; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0d1117;
+    border-bottom: 1px solid #1f2937;
     padding: 15px 40px;
 }
 
 .nav-logo img {
-    height: 80px; 
+    height: 80px;
     width: auto;
     display: block;
 }
@@ -35,7 +34,7 @@ body {
 .nav-menu {
     display: flex;
     align-items: center;
-    gap: 25px; 
+    gap: 25px;
 }
 
 .nav-menu a {
@@ -45,7 +44,7 @@ body {
 }
 
 .nav-menu a:hover {
-    color: white; 
+    color: white;
 }
 
 .btn-cuenta {
@@ -76,20 +75,19 @@ body {
 
 /* 2. MENÚ DESPLEGABLE (DROPDOWN DE "CUENTA") */
 
-
 .dropdown {
-    position: relative; 
+    position: relative;
     display: inline-block;
 }
 
 .dropdown-content {
-    display: none; 
+    display: none;
     position: absolute;
     right: 0;
-    background-color: #171a21; 
+    background-color: #171a21;
     min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5); 
-    z-index: 1; 
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.5);
+    z-index: 10;
     border-radius: 3px;
     border: 1px solid #32353c;
 }
@@ -108,22 +106,19 @@ body {
 }
 
 .dropdown:hover .dropdown-content {
-    display: block; 
+    display: block;
 }
 
 
 /* 3. SECCIÓN DE BÚSQUEDA (PÁGINA PRINCIPAL / INDEX) */
 
-
 .busqueda {
-    
     background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/static/img/Fondo.jpeg');
     background-position: center;
-    background-size: cover; 
+    background-size: cover;
     background-repeat: no-repeat;
     padding: 60px 20px;
-    text-align: center; 
-    height: 350px;
+    text-align: center;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -141,15 +136,22 @@ body {
     margin-bottom: 32px;
 }
 
+.zona-buscador {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
 .barra-busqueda {
     display: flex;
     align-items: center;
-    background-color: #3b3b3b; 
-    border-radius: 30px; 
+    background-color: #3b3b3b;
+    border-radius: 30px;
     padding: 5px 20px;
     width: 600px;
-    max-width: 90vw; 
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    max-width: 75vw;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 .contenedor-busqueda {
@@ -178,11 +180,11 @@ body {
     width: 20px;
     height: 20px;
     margin-right: 10px;
-    color: #aeb1b4; 
+    color: #aeb1b4;
 }
 
 .barra-busqueda input {
-    flex: 1; 
+    flex: 1;
     background: transparent;
     border: none;
     color: white;
@@ -196,25 +198,31 @@ body {
 }
 
 .contenedor-resultados {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
     width: 600px;
-    max-width: 90vw;
-    background-color: #2b2b2b;
-    border-radius: 10px;
-    margin-top: 10px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.5);
-    display: none; 
+    max-width: 75vw;
+    background-color: rgba(27, 30, 36, 0.98);
+    border: 1px solid #3b3b3b;
+    border-radius: 16px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.65);
+    display: none;
     text-align: left;
     overflow: hidden;
+    z-index: 100;
 }
 
 .item-resultado {
-    padding: 15px 20px;
-    border-bottom: 1px solid #3b3b3b;
+    padding: 12px 18px;
+    border-bottom: 1px solid #32363f;
     color: white;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 12px;
+    transition: background-color 0.15s ease;
 }
 
 .item-resultado:last-child {
@@ -222,21 +230,63 @@ body {
 }
 
 .item-resultado:hover {
+    background-color: #2f3846;
+}
+
+.item-estado {
+    color: #aeb1b4;
+    cursor: default;
+    font-size: 15px;
+}
+
+.item-estado:hover {
+    background-color: transparent;
+}
+
+.item-izq {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.item-miniatura {
+    width: 48px;
+    height: 32px;
+    object-fit: cover;
+    border-radius: 6px;
+    flex-shrink: 0;
     background-color: #3b3b3b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.item-nombre {
+    font-size: 15px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.item-nombre small {
+    color: #aeb1b4;
+    font-weight: normal;
 }
 
 .item-genero {
     font-size: 12px;
     background: #66c0f4;
     color: black;
-    padding: 3px 8px;
-    border-radius: 5px;
+    padding: 3px 9px;
+    border-radius: 6px;
     font-weight: bold;
+    flex-shrink: 0;
 }
 
 
-/*4. PÁGINAS DE FORMULARIOS (REGISTRO Y LOGIN) - DISEÑO SENCILLO Y MODERNO*/
-
+/* 4. PÁGINAS DE FORMULARIOS (REGISTRO Y LOGIN) */
 
 .fondo-registro {
     background-image: linear-gradient(rgba(15, 20, 25, 0.85), rgba(15, 20, 25, 0.85)), url('/static/img/Fondo.jpeg');
@@ -249,7 +299,7 @@ body {
 }
 
 .navbar-registro {
-    background-color: #0d1117; 
+    background-color: #0d1117;
     border-bottom: 1px solid #1f2937;
     padding: 15px 40px;
     display: flex;
@@ -263,7 +313,7 @@ body {
     text-decoration: none;
     padding: 8px 20px;
     border: 1px solid #32353c;
-    border-radius: 5px; 
+    border-radius: 5px;
     font-size: 14px;
 }
 
@@ -274,24 +324,22 @@ body {
 
 .contenedor-registro {
     flex: 1;
-    display: flex; 
+    display: flex;
     justify-content: center;
-    align-items: center; 
+    align-items: center;
     padding: 40px 20px;
 }
 
-/* TARJETA PRINCIPAL  */
-
 .tarjeta-registro {
-    background-color: rgba(30, 35, 45, 0.9); 
-    border: 2px solid #2a475e; 
-    border-radius: 15px; 
+    background-color: rgba(30, 35, 45, 0.9);
+    border: 2px solid #2a475e;
+    border-radius: 15px;
     padding: 40px;
     width: 100%;
-    max-width: 450px; 
-    text-align: center; 
+    max-width: 450px;
+    text-align: center;
     color: #e0e6ed;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); 
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
 }
 
 .tarjeta-registro h2 {
@@ -302,7 +350,7 @@ body {
 
 .grupo-input {
     margin-bottom: 20px;
-    text-align: left; 
+    text-align: left;
 }
 
 .grupo-input label {
@@ -312,25 +360,22 @@ body {
     color: #aeb1b4;
 }
 
-/* CAJAS DE TEXTO SENCILLAS */
 .grupo-input input {
     width: 100%;
-    height: 45px; 
-    background-color: #171a21; 
-    border: 1px solid #32353c; 
-    border-radius: 8px; 
+    height: 45px;
+    background-color: #171a21;
+    border: 1px solid #32353c;
+    border-radius: 8px;
     color: white;
     padding: 0 15px;
     font-size: 15px;
     outline: none;
 }
 
-/* Cuando el usuario hace clic en la caja */
 .grupo-input input:focus {
-    border: 2px solid #00d2ff; 
+    border: 2px solid #00d2ff;
 }
 
-/* BOTÓN PRINCIPAL SIN COMPLICACIONES */
 .btn-registrar {
     width: 100%;
     height: 50px;
@@ -338,7 +383,7 @@ body {
     margin-bottom: 25px;
     border: none;
     border-radius: 8px;
-    background-color: #007cc7; 
+    background-color: #007cc7;
     color: white;
     font-size: 16px;
     font-weight: bold;
@@ -346,7 +391,7 @@ body {
 }
 
 .btn-registrar:hover {
-    background-color: #00d2ff; 
+    background-color: #00d2ff;
 }
 
 .enlace-login p {
@@ -365,15 +410,14 @@ body {
 }
 
 
-/*5. PIE DE PÁGINA (FOOTER GLOBAL) */
-
+/* 5. PIE DE PÁGINA (FOOTER GLOBAL) */
 
 .footer {
     background-color: #0d1117;
-    color: #8f98a0; 
+    color: #8f98a0;
     padding: 20px 0;
     text-align: center;
-    border-top: 1px solid #1f2937; 
+    border-top: 1px solid #1f2937;
     margin-top: auto;
     width: 100%;
 }
