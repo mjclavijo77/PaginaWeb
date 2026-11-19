@@ -1,7 +1,6 @@
-
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 import gestor_datos
-from backend.game_api import obtener_datos_completos
+from backend.game_api import obtener_datos_completos, buscar_sugerencias_rawg
 
 app = Flask(__name__)
 
@@ -56,19 +55,28 @@ def resultados():
 
 @app.route("/api/buscar")
 def buscar_juegos():
-    query = request.args.get("q", "").lower()
+    query = request.args.get("q", "").strip()
+    limite = request.args.get("limite", 6, type=int)
 
-    juegos = gestor_datos.cargar_juegos()
+    if not query:
+        return jsonify([])
 
-    if query:
-        resultados = [
-            juego for juego in juegos
-            if query in juego["nombre"].lower()
-        ]
-    else:
-        resultados = juegos
-
+    resultados = buscar_sugerencias_rawg(query, limite=limite)
     return jsonify(resultados)
+
+
+@app.route("/api/videojuegos")
+def api_videojuegos():
+    query = request.args.get("q", "").strip()
+    pagina = request.args.get("pagina", 1, type=int)
+    tamano = request.args.get("tamano", 40, type=int)
+
+    resultados = buscar_sugerencias_rawg(query, limite=tamano, pagina=pagina)
+    return jsonify({
+        "pagina": pagina,
+        "cantidad": len(resultados),
+        "videojuegos": resultados
+    })
 
 
 if __name__ == "__main__":

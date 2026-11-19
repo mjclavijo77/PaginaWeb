@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -20,7 +19,6 @@
             <a href="#">Favoritos</a>
             <a href="#">Biblioteca</a>
 
-            <!-- INICIO DEL MENÚ DESPLEGABLE -->
             <div class="dropdown">
                 <a href="#" class="btn-cuenta">Cuenta</a>
                 <div class="dropdown-content">
@@ -28,7 +26,6 @@
                     <a href="{{ url_for('registro') }}">Crear Cuenta</a>
                 </div>
             </div>
-            <!-- FIN DEL MENÚ DESPLEGABLE -->
 
             <div class="icono-menu">
                 <span></span>
@@ -47,37 +44,41 @@
             Consulta informacion de tu juego en un solo lugar.
         </p>
 
-        <div class="contenedor-busqueda">
+        <div class="zona-buscador">
 
-            <div class="barra-busqueda">
-                <svg class="icono-lupa"
-                     xmlns="http://www.w3.org/2000/svg"
-                     viewBox="0 0 24 24"
-                     fill="none"
-                     stroke="currentColor"
-                     stroke-width="2"
-                     stroke-linecap="round"
-                     stroke-linejoin="round">
+            <div class="contenedor-busqueda">
 
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
+                <div class="barra-busqueda">
+                    <svg class="icono-lupa"
+                         xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         stroke-linecap="round"
+                         stroke-linejoin="round">
 
-                <input
-                    type="text"
-                    placeholder="Buscar"
-                    id="input-busqueda"
-                    autocomplete="off"
-                >
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+
+                    <input
+                        type="text"
+                        placeholder="Buscar"
+                        id="input-busqueda"
+                        autocomplete="off"
+                    >
+                </div>
+
+                <button type="button" id="boton-buscar">
+                    Buscar
+                </button>
+
             </div>
 
-            <button type="button" id="boton-buscar">
-                Buscar
-            </button>
+            <div id="resultados-busqueda" class="contenedor-resultados"></div>
 
         </div>
-
-        <div id="resultados-busqueda" class="contenedor-resultados"></div>
 
     </main>
 
@@ -86,67 +87,104 @@
         const contenedorResultados = document.getElementById('resultados-busqueda');
         const botonBuscar = document.getElementById('boton-buscar');
 
-        // Buscar videojuego y abrir la página de resultados
-        function buscarVideojuego() {
-            const query = inputBusqueda.value.trim();
+        let timerBusqueda = null;
+        let controladorFetch = null;
+
+        function buscarVideojuego(nombreOpcional) {
+            const query = (nombreOpcional || inputBusqueda.value).trim();
 
             if (query.length > 0) {
                 window.location.href = `/resultados?q=${encodeURIComponent(query)}`;
             }
         }
 
-        botonBuscar.addEventListener('click', buscarVideojuego);
+        function ocultarSugerencias() {
+            contenedorResultados.style.display = 'none';
+            contenedorResultados.innerHTML = '';
+        }
+
+        botonBuscar.addEventListener('click', () => buscarVideojuego());
 
         inputBusqueda.addEventListener('keydown', function(event) {
             if (event.key === 'Enter') {
                 buscarVideojuego();
+            } else if (event.key === 'Escape') {
+                ocultarSugerencias();
             }
         });
 
-        // Mostrar sugerencias mientras se escribe
         inputBusqueda.addEventListener('input', function() {
             const query = this.value.trim();
+            clearTimeout(timerBusqueda);
 
-            if (query.length === 0) {
-                contenedorResultados.style.display = 'none';
-                contenedorResultados.innerHTML = '';
+            if (query.length < 2) {
+                ocultarSugerencias();
                 return;
             }
 
-            fetch(`/api/buscar?q=${encodeURIComponent(query)}`)
-                .then(response => response.json())
-                .then(data => {
-                    contenedorResultados.innerHTML = '';
+            timerBusqueda = setTimeout(() => {
+                if (controladorFetch) {
+                    controladorFetch.abort();
+                }
+                controladorFetch = new AbortController();
 
-                    if (data.length > 0) {
-                        contenedorResultados.style.display = 'block';
+                contenedorResultados.style.display = 'block';
+                contenedorResultados.innerHTML =
+                    '<div class="item-resultado item-estado">Buscando videojuegos...</div>';
 
-                        data.forEach(juego => {
-                            const div = document.createElement('div');
-                            div.className = 'item-resultado';
-
-                            div.innerHTML = `
-                                <span>${juego.nombre}</span>
-                                <span class="item-genero">${juego.genero}</span>
-                            `;
-
-                            div.addEventListener('click', function() {
-                                inputBusqueda.value = juego.nombre;
-                                buscarVideojuego();
-                            });
-
-                            contenedorResultados.appendChild(div);
-                        });
-
-                    } else {
-                        contenedorResultados.style.display = 'block';
-                        contenedorResultados.innerHTML =
-                            '<div class="item-resultado">No se encontraron juegos.</div>';
-                    }
+                fetch(`/api/buscar?q=${encodeURIComponent(query)}&limite=6`, {
+                    signal: controladorFetch.signal
                 })
-                .catch(error => {
-                    console.error('Error al buscar videojuegos:', error);
-                });
+                    .then(response => response.json())
+                    .then(data => {
+                        contenedorResultados.innerHTML = '';
+
+                        if (Array.isArray(data) && data.length > 0) {
+                            contenedorResultados.style.display = 'block';
+
+                            data.forEach(juego => {
+                                const div = document.createElement('div');
+                                div.className = 'item-resultado';
+
+                                const imgHtml = juego.imagen
+                                    ? `<img src="${juego.imagen}" alt="" class="item-miniatura">`
+                                    : `<div class="item-miniatura item-sin-img">🎮</div>`;
+
+                                const subtitulo = juego.anio ? ` (${juego.anio})` : '';
+
+                                div.innerHTML = `
+                                    <div class="item-izq">
+                                        ${imgHtml}
+                                        <span class="item-nombre">${juego.nombre}<small>${subtitulo}</small></span>
+                                    </div>
+                                    <span class="item-genero">${juego.genero}</span>
+                                `;
+
+                                div.addEventListener('click', function() {
+                                    inputBusqueda.value = juego.nombre;
+                                    buscarVideojuego(juego.nombre);
+                                });
+
+                                contenedorResultados.appendChild(div);
+                            });
+                        } else {
+                            contenedorResultados.style.display = 'block';
+                            contenedorResultados.innerHTML =
+                                '<div class="item-resultado item-estado">No se encontraron juegos.</div>';
+                        }
+                    })
+                    .catch(error => {
+                        if (error.name !== 'AbortError') {
+                            console.error('Error al buscar videojuegos:', error);
+                        }
+                    });
+            }, 300);
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.zona-buscador')) {
+                ocultarSugerencias();
+            }
         });
     </script>
 

@@ -1,4 +1,3 @@
-
 import os
 import re
 import time
@@ -7,6 +6,9 @@ import unicodedata
 import requests
 
 from deep_translator import GoogleTranslator
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 # =====================================================
@@ -62,7 +64,7 @@ def traducir_a_espanol(texto):
         traducido = GoogleTranslator(
             source="auto",
             target="es"
-        ).translate(texto)
+        ).translate(texto[:4500])
 
         return traducido if traducido else texto
 
@@ -99,7 +101,6 @@ def obtener_sinopsis(detalles):
     if not descripcion:
         return "Sin descripcion disponible."
 
-    # Buscar una version en español incluida en RAWG.
     coincidencia = re.search(
         r"(?:^|\n)\s*(?:Español|Spanish)\s*:?\s*\n",
         descripcion,
@@ -113,12 +114,70 @@ def obtener_sinopsis(detalles):
             print("Se encontro una descripcion en español en RAWG.")
             return descripcion_espanol
 
-    # Si no existe una version en español, intentar traducir.
     return traducir_a_espanol(descripcion)
 
 
 # =====================================================
-# RAWG: BUSQUEDA
+# RAWG: SUGERENCIAS RAPIDAS Y CATALOGO
+# =====================================================
+
+def buscar_sugerencias_rawg(query, limite=6, pagina=1):
+    """Consulta rápida a RAWG para autocompletado y listado general."""
+    if not RAWG_API_KEY:
+        print("Error: no se ha configurado RAWG_API_KEY en .env")
+        return []
+
+    alias = {
+        "gta": "Grand Theft Auto",
+        "gta v": "Grand Theft Auto V",
+        "gta 5": "Grand Theft Auto V",
+        "gtav": "Grand Theft Auto V"
+    }
+
+    params = {
+        "key": RAWG_API_KEY,
+        "page": max(1, pagina),
+        "page_size": min(40, max(1, limite))
+    }
+
+    if query and query.strip():
+        busqueda_limpia = normalizar_nombre(query)
+        params["search"] = alias.get(busqueda_limpia, query.strip())
+
+    datos = get_con_reintento(f"{RAWG_URL}/games", params=params, intentos=2)
+    if not datos:
+        return []
+
+    palabras_no_validas = {"demo", "beta", "prototype", "fan", "unofficial"}
+    sugerencias = []
+
+    for item in datos.get("results", []):
+        nombre = item.get("name", "")
+        palabras = set(normalizar_nombre(nombre).split())
+        if palabras_no_validas.intersection(palabras):
+            continue
+
+        generos = [g.get("name") for g in (item.get("genres") or []) if g.get("name")]
+        lanzamiento = item.get("released") or ""
+
+        sugerencias.append({
+            "id": item.get("id"),
+            "nombre": nombre,
+            "genero": generos[0] if generos else "Videojuego",
+            "generos": generos,
+            "anio": lanzamiento[:4] if len(lanzamiento) >= 4 else "",
+            "rating": item.get("rating"),
+            "imagen": item.get("background_image")
+        })
+
+        if len(sugerencias) >= limite:
+            break
+
+    return sugerencias
+
+
+# =====================================================
+# RAWG: BUSQUEDA DETALLADA
 # =====================================================
 
 def obtener_juego_rawg(nombre):
