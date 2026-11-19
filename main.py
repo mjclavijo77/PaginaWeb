@@ -4,18 +4,30 @@ import logging
 import os
 
 from flask import (
-    Flask, render_template, request, jsonify,
-    redirect, url_for, session, flash
+    Flask,
+    render_template,
+    request,
+    jsonify,
+    redirect,
+    url_for,
+    session,
+    flash
 )
 
 import gestor_datos
-from backend.game_api import obtener_datos_completos, buscar_sugerencias_rawg
+from backend.game_facade import GameCatalogFacade
+
 
 app = Flask(__name__)
-app.secret_key = os.getenv("FLASK_SECRET_KEY", "gamefinder-clave-local")
+app.secret_key = os.getenv(
+    "FLASK_SECRET_KEY",
+    "gamefinder-clave-local"
+)
 app.config["JSON_AS_ASCII"] = False
 
 logging.basicConfig(level=logging.INFO)
+
+catalogo = GameCatalogFacade()
 
 
 def obtener_usuario_actual():
@@ -24,7 +36,10 @@ def obtener_usuario_actual():
 
 @app.route("/")
 def inicio():
-    return render_template("index.html", usuario=session.get("usuario"))
+    return render_template(
+        "index.html",
+        usuario=session.get("usuario")
+    )
 
 
 @app.route("/favoritos")
@@ -51,7 +66,9 @@ def agregar_favorito():
         return redirect(url_for("login"))
 
     try:
-        datos_juego = json.loads(request.form.get("juego_json", "{}"))
+        datos_juego = json.loads(
+            request.form.get("juego_json", "{}")
+        )
     except (json.JSONDecodeError, TypeError):
         flash("No se pudieron leer los datos del videojuego.")
         return redirect(url_for("inicio"))
@@ -65,7 +82,9 @@ def agregar_favorito():
     else:
         flash("Este videojuego ya está en tus favoritos.")
 
-    return redirect(url_for("resultados", q=datos_juego["nombre"]))
+    return redirect(
+        url_for("resultados", q=datos_juego["nombre"])
+    )
 
 
 @app.route("/favoritos/eliminar", methods=["POST"])
@@ -90,13 +109,24 @@ def quitar_favorito():
 @app.route("/registro", methods=["GET", "POST"])
 def registro():
     if request.method == "POST":
+
         nuevo_usuario = {
-            "correo": request.form.get("correo", "").strip().lower(),
-            "usuario": request.form.get("usuario", "").strip(),
-            "password": request.form.get("password", "")
+            "correo": request.form.get(
+                "correo", ""
+            ).strip().lower(),
+
+            "usuario": request.form.get(
+                "usuario", ""
+            ).strip(),
+
+            "password": request.form.get(
+                "password", ""
+            )
         }
 
-        confirmar = request.form.get("confirm-password", "")
+        confirmar = request.form.get(
+            "confirm-password", ""
+        )
 
         if not all(nuevo_usuario.values()):
             return render_template(
@@ -117,12 +147,21 @@ def registro():
             )
 
         try:
-            guardado = gestor_datos.guardar_usuario(nuevo_usuario)
+            guardado = gestor_datos.guardar_usuario(
+                nuevo_usuario
+            )
+
         except OSError:
-            app.logger.exception("No se pudo guardar el usuario.")
+            app.logger.exception(
+                "No se pudo guardar el usuario."
+            )
+
             return render_template(
                 "registro.html",
-                error="No se pudo guardar el registro. Revisa los permisos de archivos."
+                error=(
+                    "No se pudo guardar el registro. "
+                    "Revisa los permisos de archivos."
+                )
             )
 
         if not guardado:
@@ -140,15 +179,29 @@ def registro():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        correo = request.form.get("correo", "").strip().lower()
-        password = request.form.get("password", "")
 
-        usuario = gestor_datos.validar_usuario(correo, password)
+        correo = request.form.get(
+            "correo", ""
+        ).strip().lower()
+
+        password = request.form.get(
+            "password", ""
+        )
+
+        usuario = gestor_datos.validar_usuario(
+            correo,
+            password
+        )
 
         if usuario:
             session.clear()
+
             session["correo"] = usuario["correo"]
-            session["usuario"] = usuario.get("usuario", correo)
+            session["usuario"] = usuario.get(
+                "usuario",
+                correo
+            )
+
             return redirect(url_for("inicio"))
 
         return render_template(
@@ -162,13 +215,18 @@ def login():
 @app.route("/logout")
 def logout():
     session.clear()
+
     flash("Has cerrado sesión.")
+
     return redirect(url_for("inicio"))
 
 
 @app.route("/resultados")
 def resultados():
-    nombre_juego = request.args.get("q", "").strip()
+    nombre_juego = request.args.get(
+        "q", ""
+    ).strip()
+
     correo = obtener_usuario_actual()
 
     if not nombre_juego:
@@ -181,7 +239,10 @@ def resultados():
         )
 
     try:
-        datos = obtener_datos_completos(nombre_juego)
+        datos = catalogo.obtener_datos_completos(
+            nombre_juego
+        )
+
     except Exception:
         app.logger.exception(
             "Error al consultar las APIs para %s",
@@ -192,8 +253,9 @@ def resultados():
             "resultados.html",
             juego=None,
             error=(
-                "Ocurrió un problema al consultar los servicios de videojuegos. "
-                "Verifica tu conexión, las dependencias y RAWG_API_KEY."
+                "Ocurrió un problema al consultar los servicios "
+                "de videojuegos. Verifica tu conexión, las "
+                "dependencias y la configuración de las APIs."
             ),
             usuario=session.get("usuario"),
             es_favorito=False
@@ -212,7 +274,10 @@ def resultados():
         )
 
     es_favorito = (
-        gestor_datos.comprobar_favorito(correo, datos["nombre"])
+        gestor_datos.comprobar_favorito(
+            correo,
+            datos["nombre"]
+        )
         if correo else False
     )
 
@@ -227,34 +292,77 @@ def resultados():
 
 @app.route("/api/buscar")
 def buscar_juegos():
-    query = request.args.get("q", "").strip()
-    limite = request.args.get("limite", 6, type=int)
+    query = request.args.get(
+        "q", ""
+    ).strip()
+
+    limite = request.args.get(
+        "limite",
+        6,
+        type=int
+    )
+
     limite = min(max(limite, 1), 12)
 
     if len(query) < 2:
         return jsonify([])
 
-    resultados = buscar_sugerencias_rawg(query, limite=limite)
-    return jsonify(resultados)
+    try:
+        juegos = catalogo.buscar_sugerencias(
+            query=query,
+            limite=limite
+        )
+
+        return jsonify(juegos)
+
+    except Exception:
+        app.logger.exception(
+            "Error al buscar sugerencias."
+        )
+
+        return jsonify([]), 500
 
 
 @app.route("/api/videojuegos")
 def api_videojuegos():
-    query = request.args.get("q", "").strip()
-    pagina = max(request.args.get("pagina", 1, type=int), 1)
-    tamano = min(max(request.args.get("tamano", 40, type=int), 1), 40)
+    query = request.args.get(
+        "q", ""
+    ).strip()
 
-    resultados = buscar_sugerencias_rawg(
-        query,
-        limite=tamano,
-        pagina=pagina
+    pagina = max(
+        request.args.get("pagina", 1, type=int),
+        1
     )
 
-    return jsonify({
-        "pagina": pagina,
-        "cantidad": len(resultados),
-        "videojuegos": resultados
-    })
+    tamano = min(
+        max(request.args.get("tamano", 40, type=int), 1),
+        40
+    )
+
+    try:
+        juegos = catalogo.buscar_sugerencias(
+            query=query,
+            limite=tamano,
+            pagina=pagina
+        )
+
+        return jsonify({
+            "pagina": pagina,
+            "cantidad": len(juegos),
+            "videojuegos": juegos
+        })
+
+    except Exception:
+        app.logger.exception(
+            "Error al consultar el catálogo de videojuegos."
+        )
+
+        return jsonify({
+            "pagina": pagina,
+            "cantidad": 0,
+            "videojuegos": [],
+            "error": "No fue posible consultar el catálogo."
+        }), 500
 
 
 if __name__ == "__main__":
