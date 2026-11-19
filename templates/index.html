@@ -5,30 +5,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
     <title>GameFinder</title>
 </head>
 
 <body>
 
     <nav class="navbar">
+
         <div class="nav-logo">
-            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo Mando">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo GameFinder">
         </div>
 
         <div class="nav-menu">
-            <a href="#">Favoritos</a>
+
+            <a href="{{ url_for('favoritos') }}">Favoritos</a>
             <a href="#">Biblioteca</a>
 
-            <!-- INICIO DEL MENÚ DESPLEGABLE -->
             <div class="dropdown">
-                <a href="#" class="btn-cuenta">Cuenta</a>
-                <div class="dropdown-content">
-                    <a href="{{ url_for('login') }}">Iniciar Sesión</a>
-                    <a href="{{ url_for('registro') }}">Crear Cuenta</a>
-                </div>
+                {% if usuario %}
+                    <a href="#" class="btn-cuenta">{{ usuario }}</a>
+                    <div class="dropdown-content">
+                        <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+                    </div>
+                {% else %}
+                    <a href="#" class="btn-cuenta">Cuenta</a>
+                    <div class="dropdown-content">
+                        <a href="{{ url_for('login') }}">Iniciar Sesión</a>
+                        <a href="{{ url_for('registro') }}">Crear Cuenta</a>
+                    </div>
+                {% endif %}
             </div>
-            <!-- FIN DEL MENÚ DESPLEGABLE -->
 
             <div class="icono-menu">
                 <span></span>
@@ -36,20 +45,23 @@
                 <span></span>
                 <span></span>
             </div>
+
         </div>
+
     </nav>
 
     <main class="busqueda">
 
-        <h1>¿Que videojuego estas buscando?</h1>
+        <h1>¿Qué videojuego estás buscando?</h1>
 
         <p>
-            Consulta informacion de tu juego en un solo lugar.
+            Consulta información de tu juego en un solo lugar.
         </p>
 
         <div class="contenedor-busqueda">
 
             <div class="barra-busqueda">
+
                 <svg class="icono-lupa"
                      xmlns="http://www.w3.org/2000/svg"
                      viewBox="0 0 24 24"
@@ -61,14 +73,16 @@
 
                     <circle cx="11" cy="11" r="8"></circle>
                     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+
                 </svg>
 
                 <input
                     type="text"
-                    placeholder="Buscar"
+                    placeholder="Buscar videojuego..."
                     id="input-busqueda"
                     autocomplete="off"
                 >
+
             </div>
 
             <button type="button" id="boton-buscar">
@@ -86,12 +100,12 @@
         const contenedorResultados = document.getElementById('resultados-busqueda');
         const botonBuscar = document.getElementById('boton-buscar');
 
-        // Buscar videojuego y abrir la página de resultados
         function buscarVideojuego() {
             const query = inputBusqueda.value.trim();
 
             if (query.length > 0) {
-                window.location.href = `/resultados?q=${encodeURIComponent(query)}`;
+                window.location.href =
+                    `/resultados?q=${encodeURIComponent(query)}`;
             }
         }
 
@@ -103,8 +117,7 @@
             }
         });
 
-        // Mostrar sugerencias mientras se escribe
-        inputBusqueda.addEventListener('input', function() {
+        inputBusqueda.addEventListener('input', async function() {
             const query = this.value.trim();
 
             if (query.length === 0) {
@@ -113,55 +126,54 @@
                 return;
             }
 
-            fetch(`/api/buscar?q=${encodeURIComponent(query)}`)
-                .then(response => response.json())
-                .then(data => {
-                    contenedorResultados.innerHTML = '';
+            try {
+                const respuesta = await fetch(
+                    `/api/buscar?q=${encodeURIComponent(query)}`
+                );
 
-                    if (data.length > 0) {
-                        contenedorResultados.style.display = 'block';
+                if (!respuesta.ok) {
+                    throw new Error('No se pudieron cargar las sugerencias.');
+                }
 
-                        data.forEach(juego => {
-                            const div = document.createElement('div');
-                            div.className = 'item-resultado';
+                const juegos = await respuesta.json();
 
-                            div.innerHTML = `
-                                <span>${juego.nombre}</span>
-                                <span class="item-genero">${juego.genero}</span>
-                            `;
+                contenedorResultados.innerHTML = '';
 
-                            div.addEventListener('click', function() {
-                                inputBusqueda.value = juego.nombre;
-                                buscarVideojuego();
-                            });
+                if (juegos.length > 0) {
+                    juegos.forEach(juego => {
+                        const opcion = document.createElement('div');
 
-                            contenedorResultados.appendChild(div);
+                        opcion.className = 'resultado-sugerencia';
+                        opcion.textContent = juego.nombre;
+
+                        opcion.addEventListener('click', function() {
+                            inputBusqueda.value = juego.nombre;
+                            buscarVideojuego();
                         });
 
-                    } else {
-                        contenedorResultados.style.display = 'block';
-                        contenedorResultados.innerHTML =
-                            '<div class="item-resultado">No se encontraron juegos.</div>';
-                    }
-                })
-                .catch(error => {
-                    console.error('Error al buscar videojuegos:', error);
-                });
+                        contenedorResultados.appendChild(opcion);
+                    });
+
+                    contenedorResultados.style.display = 'block';
+                } else {
+                    contenedorResultados.style.display = 'none';
+                }
+
+            } catch (error) {
+                console.error('Error en sugerencias:', error);
+                contenedorResultados.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('click', function(event) {
+            if (
+                !inputBusqueda.contains(event.target) &&
+                !contenedorResultados.contains(event.target)
+            ) {
+                contenedorResultados.style.display = 'none';
+            }
         });
     </script>
 
-    <footer class="footer">
-        <div class="footer-contenido">
-            <p>&copy; 2026 GameFinder. Todos los derechos reservados.</p>
-
-            <div class="footer-enlaces">
-                <a href="#">Términos de Servicio</a>
-                <a href="#">Política de Privacidad</a>
-                <a href="#">Acerca de Nosotros</a>
-            </div>
-        </div>
-    </footer>
-
 </body>
-
 </html>

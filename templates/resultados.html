@@ -6,6 +6,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/resultados.css') }}">
+
     <title>
         {% if juego %}
             {{ juego.nombre }} - GameFinder
@@ -13,316 +16,299 @@
             Resultados - GameFinder
         {% endif %}
     </title>
-
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/resultados.css') }}">
 </head>
 
 <body>
 
-    <!-- BARRA DE NAVEGACION -->
-    <nav class="navbar-resultados">
-
+    <nav class="navbar">
         <div class="nav-logo">
-            <a href="/">
-                <img src="{{ url_for('static', filename='img/logo.png') }}" alt="GameFinder">
+            <a href="{{ url_for('inicio') }}">
+                <img src="{{ url_for('static', filename='img/logo.png') }}"
+                     alt="GameFinder">
             </a>
         </div>
 
-        <a href="/" class="btn-inicio">Volver al inicio</a>
+        <div class="nav-menu">
+            <a href="{{ url_for('favoritos') }}">Favoritos</a>
+            <a href="{{ url_for('inicio') }}">Inicio</a>
 
+            <div class="dropdown">
+                {% if usuario %}
+                    <a href="#" class="btn-cuenta">{{ usuario }}</a>
+                    <div class="dropdown-content">
+                        <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+                    </div>
+                {% else %}
+                    <a href="#" class="btn-cuenta">Cuenta</a>
+                    <div class="dropdown-content">
+                        <a href="{{ url_for('login') }}">Iniciar Sesión</a>
+                        <a href="{{ url_for('registro') }}">Crear Cuenta</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
     </nav>
 
+    <main class="pagina-resultados">
 
-    <main class="contenido-resultados">
+        <a href="{{ url_for('inicio') }}" class="btn-volver">
+            ← Volver al inicio
+        </a>
 
         {% if error %}
 
-            <div class="mensaje-error">
-                <h1>No encontramos el videojuego</h1>
+            <section class="mensaje-sin-resultados">
+                <h1>No se pudo encontrar el videojuego</h1>
                 <p>{{ error }}</p>
-                <a href="/" class="steam-btn">Intentar nuevamente</a>
-            </div>
+                <a href="{{ url_for('inicio') }}" class="btn-volver">
+                    Intentar otra búsqueda
+                </a>
+            </section>
 
         {% elif juego %}
 
-            <!-- INFORMACION PRINCIPAL DEL JUEGO -->
-            <div class="game">
+            <section class="detalle-juego">
 
-                <!-- COLUMNA IZQUIERDA: IMAGENES -->
-                <div class="left">
+                <div class="cabecera-juego">
 
-                    {% if juego.imagen %}
-                        <img
-                            src="{{ juego.imagen }}"
-                            class="main-image"
-                            alt="{{ juego.nombre }}"
-                        >
-                    {% else %}
-                        <div class="imagen-no-disponible">
-                            Imagen no disponible
-                        </div>
-                    {% endif %}
-
-
-                    <!-- GALERIA DE CAPTURAS -->
-                    {% if juego.screenshots %}
-
-                        <div class="screenshots">
-
-                            {% for imagen in juego.screenshots %}
-
-                                <img
-                                    src="{{ imagen }}"
-                                    alt="Captura de {{ juego.nombre }}"
-                                    onclick="window.open(this.src, '_blank')"
-                                >
-
-                            {% endfor %}
-
-                        </div>
-
-                    {% endif %}
-
-                </div>
-
-
-                <!-- COLUMNA DERECHA: INFORMACION -->
-                <div class="right">
-
-                    <h1>{{ juego.nombre }}</h1>
-
-
-                    <!-- SINOPSIS -->
-                    <div class="sinopsis">
-
-                        <h2>Descripción</h2>
-
-                        <p>
-                            {{ juego.sinopsis or "Descripción no disponible." }}
-                        </p>
-
+                    <div class="imagen-principal">
+                        {% if juego.imagen %}
+                            <img src="{{ juego.imagen }}" alt="{{ juego.nombre }}">
+                        {% endif %}
                     </div>
 
+                    <div class="datos-principales">
 
-                    <!-- INFORMACION GENERAL -->
-                    <div class="info">
+                        <h1>{{ juego.nombre }}</h1>
 
-                        <h2>Información del videojuego</h2>
+                        {% if juego.rating is not none %}
+                            <p>⭐ Calificación RAWG: {{ juego.rating }} / 5</p>
+                        {% endif %}
 
-                        <p>
-                            <strong>Rating:</strong>
-                            {{ juego.rating if juego.rating is not none else "No disponible" }}
-                        </p>
+                        {% if juego.metacritic %}
+                            <p>Metacritic: {{ juego.metacritic }}</p>
+                        {% endif %}
 
-                        <p>
-                            <strong>Metacritic:</strong>
-                            {{ juego.metacritic if juego.metacritic is not none else "No disponible" }}
-                        </p>
+                        {% if juego.lanzamiento %}
+                            <p>Fecha de lanzamiento: {{ juego.lanzamiento }}</p>
+                        {% endif %}
 
-                        <p>
-                            <strong>Lanzamiento:</strong>
-                            {{ juego.lanzamiento or "No disponible" }}
-                        </p>
+                        {% if juego.generos %}
+                            <p>
+                                Géneros: {{ juego.generos | join(", ") }}
+                            </p>
+                        {% endif %}
 
-                        <p>
-                            <strong>Desarrollador:</strong>
+                        {% if juego.esrb %}
+                            <p>Clasificación: {{ juego.esrb }}</p>
+                        {% endif %}
 
-                            {% if juego.desarrolladores %}
-                                {{ juego.desarrolladores | join(", ") }}
-                            {% else %}
-                                No disponible
-                            {% endif %}
+                        {% if usuario %}
 
-                        </p>
+                            <form
+                                action="{% if es_favorito %}{{ url_for('quitar_favorito') }}{% else %}{{ url_for('agregar_favorito') }}{% endif %}"
+                                method="POST"
+                                class="form-favorito"
+                            >
 
-                        <p>
-                            <strong>Clasificación ESRB:</strong>
-                            {{ juego.esrb or "No disponible" }}
-                        </p>
+                                {% if es_favorito %}
 
-                        <p>
-                            <strong>Plataformas:</strong>
+                                    <input
+                                        type="hidden"
+                                        name="nombre"
+                                        value="{{ juego.nombre }}"
+                                    >
 
-                            {% if juego.plataformas %}
-                                {{ juego.plataformas | join(", ") }}
-                            {% else %}
-                                No disponible
-                            {% endif %}
+                                    <button type="submit" class="btn-favorito activo">
+                                        ♥ Quitar de favoritos
+                                    </button>
 
-                        </p>
+                                {% else %}
 
+                                    <input
+                                        type="hidden"
+                                        name="juego_json"
+                                        value="{{ juego | tojson | forceescape }}"
+                                    >
 
-                        <!-- GENEROS -->
-                        <div class="tags">
+                                    <button type="submit" class="btn-favorito">
+                                        ♡ Agregar a favoritos
+                                    </button>
 
-                            {% for genero in juego.generos %}
-                                <span class="tag">{{ genero }}</span>
-                            {% endfor %}
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- PRECIO DE STEAM -->
-                    <div class="price-box">
-
-                        <h2>Comprar en Steam</h2>
-
-                        {% set precio = juego.steam.precio if juego.steam and juego.steam.precio else none %}
-
-                        {% if precio %}
-
-                            {% if precio.discount_percent|default(0)|int > 0 %}
-
-                                {% if precio.initial_formatted %}
-                                    <div class="precio-original">
-                                        {{ precio.initial_formatted }}
-                                    </div>
                                 {% endif %}
 
-                                <div class="descuento">
-                                    -{{ precio.discount_percent }}%
-                                </div>
-
-                            {% endif %}
-
-                            {% if precio.final_formatted %}
-                                <div class="precio-final">
-                                    {{ precio.final_formatted }}
-                                </div>
-                            {% else %}
-                                <p>Precio no disponible.</p>
-                            {% endif %}
+                            </form>
 
                         {% else %}
 
-                            <p>Precio no disponible.</p>
-
-                        {% endif %}
-
-
-                        {% if juego.steam_url %}
-
-                            <a
-                                href="{{ juego.steam_url }}"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="steam-btn"
-                            >
-                                Ver en Steam
+                            <a href="{{ url_for('login') }}" class="btn-favorito">
+                                Inicia sesión para guardar en favoritos
                             </a>
 
                         {% endif %}
 
+                        {% if juego.steam_url %}
+                            <a href="{{ juego.steam_url }}"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="btn-steam">
+                                Ver en Steam
+                            </a>
+                        {% endif %}
 
-                        <div class="links">
-
-                            {% if juego.gameplay %}
-
-                                <a
-                                    href="{{ juego.gameplay }}"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="steam-btn"
-                                >
-                                    Ver Gameplay
-                                </a>
-
-                            {% endif %}
-
-                            {% if juego.sitio_web %}
-
-                                <a
-                                    href="{{ juego.sitio_web }}"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="steam-btn"
-                                >
-                                    Sitio Oficial
-                                </a>
-
-                            {% endif %}
-
-                        </div>
+                        {% if juego.sitio_web %}
+                            <a href="{{ juego.sitio_web }}"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="btn-sitio">
+                                Sitio oficial
+                            </a>
+                        {% endif %}
 
                     </div>
 
+                </div>
 
-                    <!-- ESTADISTICAS STEAMSPY -->
-                    {% if juego.steamspy %}
 
-                        <div class="steamspy">
+                <section class="seccion-detalles">
 
-                            <h2>Estadísticas de Steam</h2>
+                    <h2>Descripción</h2>
 
+                    <p class="sinopsis">
+                        {{ juego.sinopsis or "Descripción no disponible." }}
+                    </p>
+
+                </section>
+
+
+                {% if juego.plataformas %}
+
+                    <section class="seccion-detalles">
+                        <h2>Plataformas</h2>
+
+                        <ul>
+                            {% for plataforma in juego.plataformas %}
+                                <li>{{ plataforma }}</li>
+                            {% endfor %}
+                        </ul>
+                    </section>
+
+                {% endif %}
+
+
+                {% if juego.desarrolladores %}
+
+                    <section class="seccion-detalles">
+                        <h2>Desarrolladores</h2>
+
+                        <p>{{ juego.desarrolladores | join(", ") }}</p>
+                    </section>
+
+                {% endif %}
+
+
+                {% if juego.steam %}
+
+                    <section class="seccion-detalles">
+
+                        <h2>Información de Steam</h2>
+
+                        {% if juego.steam.nombre %}
+                            <p>Nombre: {{ juego.steam.nombre }}</p>
+                        {% endif %}
+
+                        {% if juego.steam.precio %}
                             <p>
-                                <strong>Propietarios estimados:</strong>
-                                {{ juego.steamspy.propietarios or "No disponible" }}
+                                Precio:
+                                {{ juego.steam.precio.final_formatted }}
                             </p>
+                        {% else %}
+                            <p>Precio no disponible.</p>
+                        {% endif %}
 
-                            <p>
-                                <strong>Reseñas positivas:</strong>
-                                {{ "{:,}".format(juego.steamspy.positivas|default(0)|int) }}
-                            </p>
+                    </section>
 
-                            <p>
-                                <strong>Reseñas negativas:</strong>
-                                {{ "{:,}".format(juego.steamspy.negativas|default(0)|int) }}
-                            </p>
+                {% endif %}
 
-                            {% set positivas = juego.steamspy.positivas|default(0)|int %}
-                            {% set negativas = juego.steamspy.negativas|default(0)|int %}
-                            {% set total = positivas + negativas %}
 
-                            <p>
-                                <strong>Aprobación:</strong>
+                {% if juego.steamspy %}
 
-                                {% if total > 0 %}
-                                    {{ "%.1f"|format((positivas / total) * 100) }}%
-                                {% else %}
-                                    No disponible
-                                {% endif %}
-                            </p>
+                    <section class="seccion-detalles">
 
-                            <p>
-                                <strong>Tiempo promedio:</strong>
+                        <h2>Estadísticas de SteamSpy</h2>
 
-                                {% if juego.steamspy.tiempo_promedio %}
-                                    {{ juego.steamspy.tiempo_promedio }} minutos
-                                {% else %}
-                                    No disponible
-                                {% endif %}
-                            </p>
+                        <p>
+                            Propietarios estimados:
+                            {{ juego.steamspy.propietarios or "No disponible" }}
+                        </p>
+
+                        <p>
+                            Reseñas:
+                            {{ juego.steamspy.reseñas or 0 }}
+                        </p>
+
+                        <p>
+                            Positivas:
+                            {{ juego.steamspy.positivas or 0 }}
+                        </p>
+
+                        <p>
+                            Negativas:
+                            {{ juego.steamspy.negativas or 0 }}
+                        </p>
+
+                    </section>
+
+                {% endif %}
+
+
+                {% if juego.screenshots %}
+
+                    <section class="seccion-detalles">
+
+                        <h2>Imágenes del videojuego</h2>
+
+                        <div class="galeria-screenshots">
+
+                            {% for captura in juego.screenshots %}
+
+                                <img src="{{ captura }}"
+                                     alt="Captura de {{ juego.nombre }}">
+
+                            {% endfor %}
 
                         </div>
 
-                    {% endif %}
+                    </section>
 
-                </div>
+                {% endif %}
 
-            </div>
+
+                {% if juego.gameplay %}
+
+                    <section class="seccion-detalles">
+
+                        <h2>Gameplay</h2>
+
+                        <video controls class="video-gameplay">
+                            <source src="{{ juego.gameplay }}" type="video/mp4">
+                            Tu navegador no soporta la reproducción de video.
+                        </video>
+
+                    </section>
+
+                {% endif %}
+
+            </section>
 
         {% endif %}
 
     </main>
 
-
-    <!-- FOOTER -->
     <footer class="footer">
-
         <div class="footer-contenido">
-
             <p>&copy; 2026 GameFinder. Todos los derechos reservados.</p>
-
-            <div class="footer-enlaces">
-                <a href="#">Términos de Servicio</a>
-                <a href="#">Política de Privacidad</a>
-                <a href="#">Acerca de Nosotros</a>
-            </div>
-
         </div>
-
     </footer>
 
 </body>
