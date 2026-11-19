@@ -1,0 +1,63 @@
+[
+    {
+        "correo": "jfg@gmail.com",
+        "nombre": "Elden Ring",
+        "juego": {
+            "appid": 1245620,
+            "desarrolladores": [
+                "FromSoftware"
+            ],
+            "esrb": "Mature",
+            "gameplay": null,
+            "generos": [
+                "Action",
+                "RPG"
+            ],
+            "imagen": "https://media.rawg.io/media/games/b29/b294fdd866dcdb643e7bab370a552855.jpg",
+            "lanzamiento": "2022-02-25",
+            "metacritic": 95,
+            "nombre": "Elden Ring",
+            "plataformas": [
+                "PC",
+                "PlayStation 5",
+                "Xbox One",
+                "PlayStation 4",
+                "Xbox Series S/X"
+            ],
+            "rating": 4.38,
+            "screenshots": [
+                "https://media.rawg.io/media/screenshots/36f/36f941f72e2b2a41629f5fb3bd448688.jpg",
+                "https://media.rawg.io/media/screenshots/290/29096848622521df7555850000236cb6.jpg",
+                "https://media.rawg.io/media/screenshots/807/807685454ea8fb87363eedd49677f49b.jpg",
+                "https://media.rawg.io/media/screenshots/2ee/2eea4d4cce2836f689d9d39d2a4a94d5.jpg",
+                "https://media.rawg.io/media/screenshots/de9/de9b28bdd0bdb9937c7f82e55f845bb6.jpg",
+                "https://media.rawg.io/media/screenshots/3a2/3a2e5f31e2061bc566bcfd30fda56a17.jpg"
+            ],
+            "sinopsis": "EL NUEVO JUEGO DE ROL Y ACCIÓN DE AMBIENTACIÓN FANTÁSTICA. Álzate, Sinluz, y que la gracia te guíe para abrazar el poder del Círculo de Elden y encumbrarte como señor del Círculo en las Tierras Intermedias.",
+            "sitio_web": "https://en.bandainamcoent.eu/elden-ring/elden-ring",
+            "steam": {
+                "descripcion": "EL NUEVO JUEGO DE ROL Y ACCIÓN DE AMBIENTACIÓN FANTÁSTICA. Álzate, Sinluz, y que la gracia te guíe para abrazar el poder del Círculo de Elden y encumbrarte como señor del Círculo en las Tierras Intermedias.",
+                "imagen": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1245620/header.jpg?t=1790290043",
+                "nombre": "ELDEN RING",
+                "precio": {
+                    "currency": "COP",
+                    "discount_percent": 0,
+                    "final": 20190000,
+                    "final_formatted": "COL$ 201.900",
+                    "initial": 20190000,
+                    "initial_formatted": ""
+                },
+                "url": "https://store.steampowered.com/app/1245620/"
+            },
+            "steam_url": "https://store.steampowered.com/app/1245620/",
+            "steamspy": {
+                "negativas": 57047,
+                "positivas": 779277,
+                "propietarios": "20,000,000 .. 50,000,000",
+                "reseñas": 836324,
+                "tiempo_promedio": 8757,
+                "tiempo_ultimas_dos_semanas": 464
+            }
+        }
+    }
+]

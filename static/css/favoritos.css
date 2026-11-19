@@ -1,0 +1,299 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #1b2838;
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.navbar-favoritos {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background: #0d1117;
+    border-bottom: 1px solid #1f2937;
+}
+
+.nav-logo img {
+    display: block;
+    width: auto;
+    height: 65px;
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.nav-menu a {
+    color: #c6d4df;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.nav-menu a:hover,
+.nav-menu a.activo {
+    color: #66c0f4;
+}
+
+.btn-cuenta {
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: #2a475e;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    z-index: 5;
+    right: 0;
+    min-width: 160px;
+    background: #171a21;
+    border: 1px solid #32353c;
+    border-radius: 5px;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 12px 15px;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.contenido-favoritos {
+    flex: 1;
+    width: 100%;
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 55px 30px;
+}
+
+.encabezado-favoritos {
+    margin-bottom: 35px;
+    text-align: center;
+}
+
+.icono-favoritos {
+    margin-bottom: 12px;
+    color: #66c0f4;
+    font-size: 38px;
+}
+
+.encabezado-favoritos h1 {
+    margin-bottom: 12px;
+    font-size: 34px;
+}
+
+.encabezado-favoritos p {
+    color: #c6d4df;
+    font-size: 16px;
+}
+
+.lista-favoritos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 22px;
+}
+
+.tarjeta-favorito {
+    overflow: hidden;
+    background: #17202d;
+    border: 1px solid #30475c;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .25);
+}
+
+.enlace-juego {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+.imagen-favorito {
+    display: block;
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+    background: #111923;
+}
+
+.imagen-vacia {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #c6d4df;
+}
+
+.informacion-juego {
+    padding: 18px 18px 8px;
+}
+
+.informacion-juego h2 {
+    margin-bottom: 12px;
+    color: #ffffff;
+    font-size: 21px;
+}
+
+.informacion-juego p {
+    margin: 7px 0;
+    color: #c6d4df;
+    font-size: 14px;
+}
+
+.acciones-favorito {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 12px 18px 18px;
+}
+
+.btn-ver-juego,
+.btn-eliminar,
+.btn-explorar {
+    display: inline-block;
+    padding: 10px 15px;
+    border: 0;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-ver-juego,
+.btn-explorar {
+    background: #2a475e;
+    color: #ffffff;
+}
+
+.btn-ver-juego:hover,
+.btn-explorar:hover {
+    background: #66c0f4;
+    color: #0d1117;
+}
+
+.btn-eliminar {
+    background: #71343a;
+    color: #ffffff;
+}
+
+.btn-eliminar:hover {
+    background: #a9444d;
+}
+
+.favoritos-vacio {
+    max-width: 650px;
+    margin: 50px auto;
+    padding: 45px 30px;
+    text-align: center;
+    background: #17202d;
+    border: 1px solid #30475c;
+    border-radius: 8px;
+}
+
+.corazon-vacio {
+    margin-bottom: 15px;
+    color: #66c0f4;
+    font-size: 55px;
+}
+
+.favoritos-vacio h2 {
+    margin-bottom: 15px;
+}
+
+.favoritos-vacio p {
+    margin-bottom: 25px;
+    color: #c6d4df;
+    line-height: 1.6;
+}
+
+.mensaje-favoritos {
+    margin-bottom: 20px;
+    padding: 12px;
+    color: #c6d4df;
+    background: #20384b;
+    border: 1px solid #36617e;
+    border-radius: 5px;
+}
+
+.footer {
+    width: 100%;
+    padding: 22px 30px;
+    background: #0d1117;
+    border-top: 1px solid #1f2937;
+}
+
+.footer-contenido {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    max-width: 1250px;
+    margin: auto;
+}
+
+.footer p,
+.footer-enlaces a {
+    color: #8f98a0;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.footer-enlaces {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+}
+
+.footer-enlaces a:hover {
+    color: #66c0f4;
+}
+
+@media (max-width: 600px) {
+    .navbar-favoritos {
+        padding: 14px 18px;
+        gap: 15px;
+    }
+
+    .nav-logo img {
+        height: 45px;
+    }
+
+    .nav-menu {
+        gap: 12px;
+    }
+
+    .contenido-favoritos {
+        padding: 35px 18px;
+    }
+
+    .encabezado-favoritos h1 {
+        font-size: 27px;
+    }
+
+    .footer-contenido {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-enlaces {
+        justify-content: center;
+    }
+}
