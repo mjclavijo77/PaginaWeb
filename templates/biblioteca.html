@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Biblioteca - GameFinder</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/biblioteca.css') }}">
+</head>
+<body>
+
+    <nav class="navbar-biblioteca">
+        <div class="nav-logo">
+            <a href="{{ url_for('inicio') }}">
+                <img src="{{ url_for('static', path='img/logo.png') }}" alt="GameFinder">
+            </a>
+        </div>
+
+        <div class="nav-menu">
+            <a href="{{ url_for('inicio') }}">Inicio</a>
+            <a href="{{ url_for('favoritos') }}">Favoritos</a>
+            <a href="{{ url_for('biblioteca') }}" class="activo">Biblioteca</a>
+
+            <div class="dropdown">
+                <a href="#" class="btn-cuenta">{{ usuario }}</a>
+                <div class="dropdown-content">
+                    <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="contenido-biblioteca">
+        <section class="encabezado-biblioteca">
+            <h1>Mi Biblioteca Personal</h1>
+            <p>Organiza tu colección, actualiza tu progreso y guarda notas de tus videojuegos.</p>
+
+            <div class="resumen-estadisticas">
+                <div class="stat-pill"><strong>{{ biblioteca | length }}</strong> Total en biblioteca</div>
+                <div class="stat-pill"><strong>{{ biblioteca | selectattr('estado', 'equalto', 'Jugando') | list | length }}</strong> Jugando</div>
+                <div class="stat-pill"><strong>{{ biblioteca | selectattr('estado', 'equalto', 'Completado') | list | length }}</strong> Completados</div>
+            </div>
+        </section>
+
+        <div id="notificacion-api" class="mensaje-alerta" style="display: none;"></div>
+
+        {% for mensaje in mensajes %}
+            <p class="mensaje-alerta">{{ mensaje }}</p>
+        {% endfor %}
+
+        {% if biblioteca %}
+            <section class="lista-biblioteca">
+                {% for item in biblioteca %}
+                    {% set juego = item.get('juego', {}) %}
+                    <article class="tarjeta-biblioteca" id="card-{{ item.juego_id }}">
+                        {% if juego.get('imagen') %}
+                            <img class="imagen-biblioteca" src="{{ juego.get('imagen') }}" alt="{{ item.nombre }}">
+                        {% else %}
+                            <div class="imagen-biblioteca imagen-vacia">Imagen no disponible</div>
+                        {% endif %}
+
+                        <div class="cuerpo-tarjeta">
+                            <div class="titulo-fila">
+                                <h2>{{ item.nombre }}</h2>
+                                <span class="badge-estado" id="badge-{{ item.juego_id }}">{{ item.estado }}</span>
+                            </div>
+
+                            <div class="control-grupo">
+                                <label for="estado-{{ item.juego_id }}">Estado de juego :</label>
+                                <select id="estado-{{ item.juego_id }}" onchange="cambiarEstadoParcial({{ item.juego_id }}, this.value)">
+                                    {% for est in ['Por jugar', 'Jugando', 'Completado', 'Abandonado'] %}
+                                        <option value="{{ est }}" {% if item.estado == est %}selected{% endif %}>{{ est }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="control-grupo">
+                                <label for="calif-{{ item.juego_id }}">Tu calificación (1 a 10):</label>
+                                <input type="number" id="calif-{{ item.juego_id }}" min="1" max="10" value="{{ item.calificacion_personal or '' }}" placeholder="Ej: 9">
+                            </div>
+
+                            <div class="control-grupo">
+                                <label for="notas-{{ item.juego_id }}">Notas personales:</label>
+                                <textarea id="notas-{{ item.juego_id }}" placeholder="Escribe tus apuntes o reseña...">{{ item.notas or '' }}</textarea>
+                            </div>
+
+                            <div class="acciones-biblioteca">
+                                <button type="button" class="btn-guardar" onclick="guardarCambiosPut({{ item.juego_id }})">
+                                    Guardar todo
+                                </button>
+                                <a href="{{ url_for('resultados') }}?q={{ item.nombre | urlencode }}" class="btn-ver">
+                                    Ver ficha
+                                </a>
+                                <button type="button" class="btn-eliminar" onclick="eliminarDeBiblioteca({{ item.juego_id }})">
+                                    Eliminar
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+                {% endfor %}
+            </section>
+        {% else %}
+            <section class="biblioteca-vacia">
+                <h2>Tu biblioteca está vacía</h2>
+                <p>Busca cualquier videojuego en GameFinder (como Halo o Elden Ring) y agrégalo a tu colección.</p>
+                <a href="{{ url_for('inicio') }}" class="btn-explorar">Buscar videojuegos</a>
+            </section>
+        {% endif %}
+    </main>
+
+    <footer class="footer">
+        <div class="footer-contenido">
+            <p>&copy; 2026 GameFinder. Todos los derechos reservados.</p>
+            <div class="footer-enlaces">
+                <a href="#">Términos de Servicio</a>
+                <a href="#">Política de Privacidad</a>
+                <a href="#">Acerca de Nosotros</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function mostrarMensaje(texto) {
+            const box = document.getElementById('notificacion-api');
+            box.textContent = texto;
+            box.style.display = 'block';
+            setTimeout(() => { box.style.display = 'none'; }, 3500);
+        }
+
+        // Usa PATCH /api/biblioteca/{juego_id}
+        async function cambiarEstadoParcial(juegoId, nuevoEstado) {
+            const resp = await fetch(`/api/biblioteca/${juegoId}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ estado: nuevoEstado })
+            });
+            if (resp.ok) {
+                document.getElementById(`badge-${juegoId}`).textContent = nuevoEstado;
+                mostrarMensaje(`Estado actualizado a "${nuevoEstado}".`);
+            }
+        }
+
+        // Usa PUT /api/biblioteca/{juego_id}
+        async function guardarCambiosPut(juegoId) {
+            const estado = document.getElementById(`estado-${juegoId}`).value;
+            const califVal = document.getElementById(`calif-${juegoId}`).value;
+            const notas = document.getElementById(`notas-${juegoId}`).value;
+
+            const payload = {
+                estado: estado,
+                calificacion_personal: califVal ? parseInt(califVal, 10) : null,
+                notas: notas
+            };
+
+            const resp = await fetch(`/api/biblioteca/${juegoId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (resp.ok) {
+                document.getElementById(`badge-${juegoId}`).textContent = estado;
+                mostrarMensaje('Cambios guardados correctamente en tu biblioteca.');
+            } else {
+                mostrarMensaje('Error al guardar los cambios.');
+            }
+        }
+
+        // Usa DELETE /api/biblioteca/{juego_id}
+        async function eliminarDeBiblioteca(juegoId) {
+            if (!confirm('¿Seguro que deseas eliminar este videojuego de tu biblioteca?')) return;
+
+            const resp = await fetch(`/api/biblioteca/${juegoId}`, {
+                method: 'DELETE'
+            });
+
+            if (resp.ok) {
+                document.getElementById(`card-${juegoId}`).remove();
+                mostrarMensaje('Videojuego eliminado de tu biblioteca.');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,196 +1,103 @@
-
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Mis Favoritos - GameFinder</title>
-
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/favoritos.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/favoritos.css') }}">
 </head>
-
 <body>
 
     <nav class="navbar-favoritos">
-
         <div class="nav-logo">
             <a href="{{ url_for('inicio') }}">
-                <img src="{{ url_for('static', filename='img/logo.png') }}"
-                     alt="GameFinder">
+                <img src="{{ url_for('static', path='img/logo.png') }}" alt="GameFinder">
             </a>
         </div>
 
         <div class="nav-menu">
-
-            <a href="{{ url_for('favoritos') }}" class="activo">
-                Favoritos
-            </a>
-
             <a href="{{ url_for('inicio') }}">Inicio</a>
+            <a href="{{ url_for('favoritos') }}" class="activo">Favoritos</a>
+            <a href="{{ url_for('biblioteca') }}">Biblioteca</a>
 
             <div class="dropdown">
                 <a href="#" class="btn-cuenta">{{ usuario }}</a>
-
                 <div class="dropdown-content">
                     <a href="{{ url_for('logout') }}">Cerrar sesión</a>
                 </div>
             </div>
-
         </div>
-
     </nav>
 
-
     <main class="contenido-favoritos">
-
         <section class="encabezado-favoritos">
-
             <div class="icono-favoritos">♥</div>
-
             <h1>Mis videojuegos favoritos</h1>
-
-            <p>
-                Aquí encontrarás todos los videojuegos que has guardado.
-            </p>
-
+            <p>Aquí encontrarás todos los videojuegos que has guardado.</p>
         </section>
 
-
-        {% with mensajes = get_flashed_messages() %}
-
-            {% for mensaje in mensajes %}
-                <p class="mensaje-favoritos">{{ mensaje }}</p>
-            {% endfor %}
-
-        {% endwith %}
-
+        {% for mensaje in mensajes %}
+            <p class="mensaje-favoritos">{{ mensaje }}</p>
+        {% endfor %}
 
         {% if favoritos %}
-
             <section class="lista-favoritos">
-
                 {% for favorito in favoritos %}
-
                     {% set juego = favorito.get('juego', {}) %}
-
                     <article class="tarjeta-favorito">
-
-                        <a class="enlace-juego"
-                           href="{{ url_for('resultados', q=favorito.get('nombre', '')) }}">
-
+                        <a class="enlace-juego" href="{{ url_for('resultados') }}?q={{ favorito.get('nombre', '') | urlencode }}">
                             {% if juego.get('imagen') %}
-
-                                <img
-                                    class="imagen-favorito"
-                                    src="{{ juego.get('imagen') }}"
-                                    alt="{{ favorito.get('nombre', 'Videojuego') }}"
-                                >
-
+                                <img class="imagen-favorito" src="{{ juego.get('imagen') }}" alt="{{ favorito.get('nombre', 'Videojuego') }}">
                             {% else %}
-
-                                <div class="imagen-favorito imagen-vacia">
-                                    Imagen no disponible
-                                </div>
-
+                                <div class="imagen-favorito imagen-vacia">Imagen no disponible</div>
                             {% endif %}
 
                             <div class="informacion-juego">
-
                                 <h2>{{ favorito.get('nombre', 'Videojuego') }}</h2>
-
                                 {% if juego.get('rating') is not none %}
                                     <p>★ {{ juego.get('rating') }} / 5</p>
                                 {% endif %}
-
                                 {% if juego.get('metacritic') is not none %}
                                     <p>Metacritic: {{ juego.get('metacritic') }}</p>
                                 {% endif %}
-
                                 {% if juego.get('lanzamiento') %}
                                     <p>Lanzamiento: {{ juego.get('lanzamiento') }}</p>
                                 {% endif %}
-
                             </div>
-
                         </a>
 
-
                         <div class="acciones-favorito">
-
-                            <a
-                                href="{{ url_for('resultados', q=favorito.get('nombre', '')) }}"
-                                class="btn-ver-juego"
-                            >
+                            <a href="{{ url_for('resultados') }}?q={{ favorito.get('nombre', '') | urlencode }}" class="btn-ver-juego">
                                 Ver videojuego
                             </a>
 
-                            <form
-                                action="{{ url_for('quitar_favorito') }}"
-                                method="POST"
-                            >
-
-                                <input
-                                    type="hidden"
-                                    name="nombre"
-                                    value="{{ favorito.get('nombre', '') }}"
-                                >
-
-                                <button type="submit" class="btn-eliminar">
-                                    Quitar ♥
-                                </button>
-
+                            <form action="{{ url_for('quitar_favorito') }}" method="POST">
+                                <input type="hidden" name="nombre" value="{{ favorito.get('nombre', '') }}">
+                                <button type="submit" class="btn-eliminar">Quitar ♥</button>
                             </form>
-
                         </div>
-
                     </article>
-
                 {% endfor %}
-
             </section>
-
         {% else %}
-
             <section class="favoritos-vacio">
-
                 <div class="corazon-vacio">♡</div>
-
                 <h2>Aún no tienes favoritos</h2>
-
-                <p>
-                    Cuando agregues videojuegos a tus favoritos,
-                    aparecerán aquí para que puedas encontrarlos fácilmente.
-                </p>
-
-                <a href="{{ url_for('inicio') }}" class="btn-explorar">
-                    Explorar videojuegos
-                </a>
-
+                <p>Cuando agregues videojuegos a tus favoritos, aparecerán aquí para que puedas encontrarlos fácilmente.</p>
+                <a href="{{ url_for('inicio') }}" class="btn-explorar">Explorar videojuegos</a>
             </section>
-
         {% endif %}
-
     </main>
 
-
     <footer class="footer">
-
         <div class="footer-contenido">
-
             <p>&copy; 2026 GameFinder. Todos los derechos reservados.</p>
-
             <div class="footer-enlaces">
                 <a href="#">Términos de Servicio</a>
                 <a href="#">Política de Privacidad</a>
                 <a href="#">Acerca de Nosotros</a>
             </div>
-
         </div>
-
     </footer>
-
 </body>
 </html>
