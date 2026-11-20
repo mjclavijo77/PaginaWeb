@@ -35,9 +35,9 @@ def _resolver_correo(request: Request, correo_query: str | None, user_repo: User
     return correo
 
 
-# =====================================================
+
 # ENDPOINTS GET DE CATÁLOGO Y BÚSQUEDA
-# =====================================================
+
 
 @router.get("/buscar", summary="Buscar sugerencias rápidas de videojuegos")
 def buscar_juegos(
@@ -86,9 +86,9 @@ def api_detalle_videojuego(
     return datos
 
 
-# =====================================================
+
 # ENDPOINTS CRUD BIBLIOTECA (GET, POST, PUT, PATCH, DELETE + PATH PARAMS)
-# =====================================================
+
 
 @router.get("/biblioteca", summary="GET - Listar todos los juegos en la biblioteca del usuario")
 def listar_biblioteca(

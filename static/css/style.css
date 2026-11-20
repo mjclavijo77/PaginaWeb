@@ -73,7 +73,7 @@ body {
 }
 
 
-/* 2. MENÚ DESPLEGABLE (DROPDOWN DE "CUENTA") */
+/* 2. MENU DESPLEGABLE (DROPDOWN DE "CUENTA") */
 
 .dropdown {
     position: relative;
@@ -110,7 +110,7 @@ body {
 }
 
 
-/* 3. SECCIÓN DE BÚSQUEDA (PÁGINA PRINCIPAL / INDEX) */
+/* 3. SECCIÓN DE BUSQUEDA (PAGINA PRINCIPAL / INDEX) */
 
 .busqueda {
     background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/static/img/Fondo.jpeg');
@@ -286,7 +286,7 @@ body {
 }
 
 
-/* 4. PÁGINAS DE FORMULARIOS (REGISTRO Y LOGIN) */
+/* 4. PAGINAS DE FORMULARIOS (REGISTRO Y LOGIN) */
 
 .fondo-registro {
     background-image: linear-gradient(rgba(15, 20, 25, 0.85), rgba(15, 20, 25, 0.85)), url('/static/img/Fondo.jpeg');
@@ -410,7 +410,7 @@ body {
 }
 
 
-/* 5. PIE DE PÁGINA (FOOTER GLOBAL) */
+/* 5. PIE DE PAGINA (FOOTER GLOBAL) */
 
 .footer {
     background-color: #0d1117;
