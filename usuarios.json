@@ -8,5 +8,10 @@
         "correo": "jfg@gmail.com",
         "usuario": "jfgd",
         "password": "123456"
+    },
+    {
+        "correo": "mjclavijo77@gmail.com",
+        "usuario": "Mjclavijo77",
+        "password_hash": "pbkdf2_sha256$08df6b90a10e7a05ac27d16281e4d886$f2a07ee32ed405086e4216e978cb980875924c6c640ddb2f2188c2a2d6bc2229"
     }
 ]

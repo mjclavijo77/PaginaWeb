@@ -1,0 +1,74 @@
+[
+    {
+        "correo": "mjclavijo77@gmail.com",
+        "juego_id": 58134,
+        "nombre": "Marvel's Spider-Man",
+        "estado": "Jugando",
+        "calificacion_personal": 9,
+        "notas": ".....",
+        "fecha_agregado": "2026-11-19 18:44",
+        "juego": {
+            "analisis_compra": {
+                "aprobacion_porcentaje": 84.1,
+                "clase_badge": "buena",
+                "costo_por_hora_cop": 6325,
+                "descuento_actual": 33,
+                "horas_promedio": 23.2,
+                "puntaje_gamefinder": 79,
+                "veredicto": "Buena oferta actual"
+            },
+            "appid": 2651280,
+            "desarrolladores": [
+                "Insomniac Games"
+            ],
+            "esrb": "Teen",
+            "gameplay": null,
+            "generos": [
+                "Action"
+            ],
+            "id": 58134,
+            "imagen": "https://media.rawg.io/media/games/9aa/9aa42d16d425fa6f179fc9dc2f763647.jpg",
+            "lanzamiento": "2018-09-07",
+            "metacritic": 87,
+            "nombre": "Marvel's Spider-Man",
+            "plataformas": [
+                "PC",
+                "PlayStation 5",
+                "PlayStation 4"
+            ],
+            "rating": 4.45,
+            "screenshots": [
+                "https://media.rawg.io/media/screenshots/331/331ba5164c5c53a5d59aad3fe9771ac7.jpg",
+                "https://media.rawg.io/media/screenshots/a15/a15b42bd8a652a3733c6ad419ebb24bd.jpg",
+                "https://media.rawg.io/media/screenshots/150/150589c127b28f287f992c2bd426b443.jpg",
+                "https://media.rawg.io/media/screenshots/f52/f526988f895b554dccf68767557a8518.jpg",
+                "https://media.rawg.io/media/screenshots/745/74589db2dee21101d7af690976fca902.jpg",
+                "https://media.rawg.io/media/screenshots/090/09063845f2efe6d0b9bc908e2652c1e1.jpeg"
+            ],
+            "sinopsis": "Marvel's Spider-Man offers the player to take on the role of the most famous Marvel superhero.\n\nPlot\nThe game introduces Spider-Man as an already experienced superhero. By the time the game begins, Peter has captured the infamous Kingpin as well as several other supervillains. Now, a gang that goes by the name of Demons poses a new danger to New York. Meanwhile, Peter is working for the scientist Otto Octavius, who didn't yet become Dr. Octopus, on their science project. Throughout the game, Spidey has to deal with multiple enemies, such as Norman Osbourne, Electro, Vulture, Rhino and Kingpin, among others.\n\nGameplay\nThe player controls Peter Parker, aka Spider-Man, from the third person view. There are also sections of the game in which the player controls other protagonists, namely Mary Jane and Miles Morales. The game is set in a 3D environment that is modeled after New York City. The player can travel the city using web slings, running, jumping, and crawling the walls. The setting includes numerous high-rise buildings designed specifically for Spider-Man's movements.\n\nAs the player progresses, he or she unlocks new suits that grant Spider-Man new abilities, such as additional attacks or enhanced Spider-Sense. The abilities are not tied to the suits, however, and the player can use the suit of his or her choice without losing the ability. The combat system is similar to that in Batman: Arkham, in that Spider-Man fights many opponents in hand-to-hand combat but avoids killing them.",
+            "sitio_web": "https://insomniac.games/game/spider-man-ps4/",
+            "steam": {
+                "imagen": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2651280/header.jpg?t=1763569811",
+                "nombre": "Marvel's Spider-Man 2",
+                "precio": {
+                    "currency": "COP",
+                    "discount_percent": 33,
+                    "final": 14673000,
+                    "final_formatted": "COL$ 146.730",
+                    "initial": 21900000,
+                    "initial_formatted": "COL$ 219.000"
+                },
+                "url": "https://store.steampowered.com/app/2651280/"
+            },
+            "steam_url": "https://store.steampowered.com/app/2651280/",
+            "steamspy": {
+                "negativas": 5637,
+                "positivas": 29720,
+                "propietarios": "1,000,000 .. 2,000,000",
+                "reseñas": 35357,
+                "tiempo_promedio": 1393,
+                "tiempo_ultimas_dos_semanas": 574
+            }
+        }
+    }
+]
